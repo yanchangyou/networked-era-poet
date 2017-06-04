@@ -1,9 +1,13 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="poem-input-text"><input bindblur="setPoemKeywords" maxlength="50" placeholder="输入藏头诗前四个字"/></view>
+  <picker  bindchange="selectPoemType" value="{{poemTypeIndex}}" range="{{poemType}}"><view class="picker">
+      选择类型：{{poemType[poemTypeIndex]}}
+    </view>
+  </picker>
+  <view class="poem-input-text"><input bindblur="setPoemKeywords" maxlength="50" placeholder="{{poemTypeTips[poemTypeIndex]}}"/></view>
   <view class="poem-click-button"><button bindtap="bindPoemTap" size="default" type="primary">点击开始作诗</button></view>
     
-  <view class="poem-title"><input maxlength="7" placeholder="无题"/></view>
+  <view class="poem-title"><input bindblur="setTitle" maxlength="7" placeholder="无题"/></view>
   <view class="poem-author"><text>{{userInfo.nickName}}</text></view>
   <view id="progress" class="poem-progress" style="display:{{progressDisplay}};">
     <progress class="poem-progress-line" percent="{{progressPercent}}" stroke-width="12" /> 
@@ -19,6 +23,6 @@
   </view>
   <view class="poem-bottom-button">
     <button bindtap="showNextPome" style="display:{{showNextPomeDisplay}}" size="mini" type="default">换一首</button>
-    <!--<button size="mini" type="default">发表</button>-->
+    <button bindtap="preViewPoem" size="mini" type="default">预览</button>
   </view>
 </view>

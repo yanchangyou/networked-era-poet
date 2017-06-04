@@ -8,32 +8,39 @@ input {
 .poem-input-text input {
   text-align: center;
   margin: 30rpx;
+  font-size: 1.2rem;
+  height: 80rpx;
 }
 .poem-click-button button {
-  margin: 40rpx;
+  margin: 30rpx;
+  font-size: 1rem;
+  /*height: 100rpx;*/
 }
 
 .poem-author,.poem-title, .poem-content, .poem-progress{
-  width:400rpx;
+  width:600rpx;
   text-align: center;
 }
 
 .poem-title {
-  margin-top: 80rpx;
-  font-size: 1.2rem;
+  margin-top: 70rpx;
+  /*font-size: 1.1rem;*/
   width: 260rpx;
 }
 .poem-title input {
   text-align: center;
   width: 260rpx;
+  font-size: 1.2rem;
+  height: 60rpx;
 }
 .poem-author {
   text-align: right;
-  padding-right: 160rpx;
+  padding-right: 260rpx;
   margin-bottom: -10rpx;
+  margin-top: 20rpx;
 }
 .poem-author text {
-  font-size: 0.7rem;
+  font-size: 0.9rem;
 }
 .poem-content,.poem-progress {
   margin-top: 15rpx;
@@ -41,6 +48,7 @@ input {
 .poem-content-line,.poem-progress-line {
   margin: 40rpx;
   height: 50rpx;
+  font-size: 1.5rem;
 }
 
 .poem-bottom-button {

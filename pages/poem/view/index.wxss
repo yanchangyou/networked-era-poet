@@ -1,0 +1,58 @@
+/* index.wxss */
+
+
+.poem-author,.poem-title, .poem-content{
+  text-align: center;
+}
+
+.poem-title {
+  margin-top: 50rpx;
+  font-size: 1.2rem;
+}
+.poem-title text {
+  text-align: center;
+  font-size: 1.5rem;
+  height: 75rpx;
+}
+.poem-author {
+  text-align: right;
+  padding-right: 200rpx;
+  margin-bottom: 10rpx;
+  margin-top: 30rpx;
+}
+.poem-author text {
+  font-size: 0.9rem;
+}
+.poem-content {
+  margin-top: 15rpx;
+}
+.poem-content-line {
+  margin: 40rpx;
+  height: 50rpx;
+  font-size: 1.5rem;
+}
+
+.poem-date {
+  text-align: right;
+  padding-right: 150rpx;
+  padding-top: 20rpx;
+}
+
+.tips {
+  text-align: left;
+  font-size: 0.6rem;
+  margin-top: 100rpx;
+  padding-left: 50rpx;
+}
+
+.poem-bottom-button {
+  margin-top: 200rpx;
+  text-align: center;
+  width: 100%;
+}
+
+.poem-bottom-button button {
+  width: 120rpx;
+  margin: 10rpx;
+  padding: 0rpx;
+}

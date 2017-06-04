@@ -1,7 +1,7 @@
-
 {
   "pages": [
-    "pages/poem/create/index"
+    "pages/poem/create/index",
+    "pages/poem/view/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
