@@ -1,4 +1,8 @@
 <!--index.wxml-->
+
+  <image class="poem-bg" src="https://dev.321zou.com/poetbg.jpg"></image>
+  
+<view class="poem-whole">
   <view class="poem-title"><text>{{title}}</text></view>
   <view class="poem-author"><text>{{author}}</text></view>
 
@@ -9,13 +13,13 @@
     <view class="poem-content-line"><text>{{poem[3]}}。</text></view>
   </view>
     <view class="poem-date"><text>{{date}}</text></view>
-
+</view>
   <view class="poem-bottom-button">
-    <button bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">写诗</button>
+    <button bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">作诗</button>
     <!--<button bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">点赞</button>-->
     <button bindtap="gotoBack" style="display:{{isPreview?'':'none'}}" size="mini" type="default">返回</button>
     <button open-type="share" size="mini" type="default">分享</button>
   </view>
 
-  <view class="tips"><text>提示：低版本微信可能点不了分享按钮，请使用右上角分享</text></view>
+  <view class="tips"><text>提示：低版本微信可能点不了分享按钮，请使用右上角转发功能</text></view>
 

@@ -146,7 +146,7 @@ Page({
     this.setData({ progressDisplay: '', poemContentDisplay: 'none' })
     
     var poemKeywords = this.data.poemKeywords
-    var poemType = this.data.poemTypeIndex+1;
+    var poemType = this.data.poemTypeIndex-(-1);
     var successCallback = function (poems){
       // var poems = res.data.poems
 
