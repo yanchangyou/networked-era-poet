@@ -1,6 +1,7 @@
 
 
 var poemService = require('../../../service/poem/poem.js')
+var util = require('../../../utils/util.js')
 
 var app = getApp()
 
@@ -18,7 +19,7 @@ Page({
     poemContentDisplay: "",
     showNextPomeDisplay: "none",
     poemTitle: '',
-    poemTypeIndex : 0,
+    poemTypeIndex : 3,
     poemType: ['五言起头', '七言起头', '五言藏头', '七言藏头'],
     poemTypeTips: ['输入首句前几个字', '输入首句前几个字','输入前四个字', '输入前四个字']
   },
@@ -27,7 +28,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-    console.log('onLoad')
     var that = this
     //调用应用实例的方法获取全局数据
     app.getUserInfo(function (userInfo) {
@@ -37,7 +37,7 @@ Page({
       })
     })
     wx.setNavigationBarTitle({
-      title: '小程序作诗'
+      title: '为你作一首诗'
     })
   },
 
@@ -96,6 +96,7 @@ Page({
   },
   setTitle: function (e) {
     var poemTitle = e.detail.value
+    poemTitle = util.escapeXChar(poemTitle)
     this.setData({ poemTitle: poemTitle })
   },
   /**
@@ -122,11 +123,10 @@ Page({
   },
   setPoemKeywords: function (e) {
     var poemKeywords = e.detail.value
+    poemKeywords = util.escapeXChar(poemKeywords)
     this.setData({ poemKeywords: poemKeywords })
   },
   makePoem: function () {
-
-
     var that = this
     var timer = setInterval(function () {
       var progressPercent = that.data.progressPercent
@@ -140,7 +140,7 @@ Page({
     //10秒之后开始清除timer，防止无限调用
     setTimeout(function () {
       clearInterval(timer)
-      console.log("10秒超时")
+      console.log("超过10秒清除进度条")
     }, 10000)
 
     this.setData({ progressDisplay: '', poemContentDisplay: 'none' })
@@ -160,7 +160,6 @@ Page({
     }
     var failCallback = function(e){
       clearInterval(timer)
-      // console.log("网络请求错误：" + e)
     }
     poemService.createPoems(poemKeywords, poemType, successCallback, failCallback)
 
@@ -173,7 +172,6 @@ Page({
     var poemIndex = this.data.poemIndex
     var poemLength = this.data.poems.length
     poemIndex = (++poemIndex) % poemLength
-    console.log("poemIndex:" + poemIndex)
     this.setData({ poemIndex: poemIndex })
   }
 })

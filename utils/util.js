@@ -16,6 +16,11 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
+function escapeXChar(str) {
+  return str.replace(/[~!@#\$%\^&\*\(\)_\+\{\}:"<>\?`\-=\[\];',\.\/]/g, '')
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  escapeXChar: escapeXChar
 }
