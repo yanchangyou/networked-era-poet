@@ -1,4 +1,6 @@
 var md5 = require('../../utils/md5.js')
+var util = require('../../utils/util.js')
+var solr = require('../../service/remote/solr/solr.js')
 
 /**
  * 功能：生成诗
@@ -52,6 +54,13 @@ function getPoemFromInterface(poemKeywords, poemType, uuid, successCallback, fai
         failCallback(e)
       }
     }
+  })
+
+  solr.send({
+    'keywords_s': poemKeywords,
+    'type_i': poemType,
+    'uuid_s': uuid,
+    'date_s': util.formatTime(new Date())
   })
 }
 
