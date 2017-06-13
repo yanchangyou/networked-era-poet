@@ -1,6 +1,7 @@
 
 
 var poemService = require('../../../service/poem/poem.js')
+var solr = require('../../../service/remote/solr/solr.js')
 var util = require('../../../utils/util.js')
 
 var app = getApp()
@@ -39,6 +40,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '为你作一首诗'
     })
+    solr.log({"event":"onUnload"})
   },
 
   /**
@@ -46,6 +48,7 @@ Page({
    */
   onReady: function () {
 
+    solr.log({ "event": "onReady" })
   },
 
   /**
@@ -53,6 +56,7 @@ Page({
    */
   onShow: function () {
 
+    solr.log({ "event": "onShow" })
   },
 
   /**
@@ -60,6 +64,7 @@ Page({
    */
   onHide: function () {
 
+    solr.log({ "event": "onHide" })
   },
 
   /**
@@ -67,6 +72,7 @@ Page({
    */
   onUnload: function () {
 
+    solr.log({ "event": "onUnload" })
   },
 
   /**
@@ -74,6 +80,7 @@ Page({
    */
   onPullDownRefresh: function () {
 
+    solr.log({ "event": "onPullDownRefresh" })
   },
 
   /**
@@ -81,6 +88,7 @@ Page({
    */
   onReachBottom: function () {
 
+    solr.log({ "event": "onReachBottom" })
   },
 
   /**
@@ -88,16 +96,20 @@ Page({
    */
   onShareAppMessage: function () {
 
+    solr.log({ "event": "onShareAppMessage" })
   }, 
   selectPoemType: function (e) {
-    this.setData({
-      poemTypeIndex: e.detail.value
-    })
+   
+    var data = { poemTypeIndex: e.detail.value }
+    this.setData(data)
+    solr.log(data)
   },
   setTitle: function (e) {
     var poemTitle = e.detail.value
     poemTitle = util.escapeXChar(poemTitle)
-    this.setData({ poemTitle: poemTitle })
+    var data = { poemTitle: poemTitle }
+    this.setData(data);
+    solr.log(data)
   },
   /**
    * 预览
@@ -120,11 +132,15 @@ Page({
     })
     app.globalData.isPreViewStatus = true//用于判断用户是否预览状态
 
+    var data = { poem: poem, title: title, poemIndex: this.data.poemIndex}
+    solr.log(data, "preview")
   },
   setPoemKeywords: function (e) {
     var poemKeywords = e.detail.value
     poemKeywords = util.escapeXChar(poemKeywords)
-    this.setData({ poemKeywords: poemKeywords })
+    var data = { poemKeywords: poemKeywords }
+    this.setData(data)
+    solr.log(data)
   },
   makePoem: function () {
     var that = this
@@ -172,6 +188,8 @@ Page({
     var poemIndex = this.data.poemIndex
     var poemLength = this.data.poems.length
     poemIndex = (++poemIndex) % poemLength
-    this.setData({ poemIndex: poemIndex })
+    var data = { poemIndex: poemIndex }
+    this.setData(data)
+    solr.log(data)
   }
 })

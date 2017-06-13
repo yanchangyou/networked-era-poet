@@ -1,16 +1,13 @@
+var util = require('../../../utils/util.js')
 
 var app = getApp()
 
-function send(json) {
-  console.log("userinfo:" + app.globalData.userInfo)
-  json['id'] = "" + new Date().getTime() + Math.random()
-  json['avatarUrl_s'] = app.globalData.userInfo.avatarUrl
-  json['country_s'] = app.globalData.userInfo.country
-  json['gender_s'] = app.globalData.userInfo.gender
-  json['nickName_s'] = app.globalData.userInfo.nickName
-  json['province_s'] = app.globalData.userInfo.province
-  json['city_s'] = app.globalData.userInfo.city
-  json['language_s'] = app.globalData.userInfo.language
+function send(json, prefix) {
+  var userInfo = packageSolrData(util.getUserInfo(),"user")
+  var solrJson = packageSolrData(json, prefix)
+  util.merge(userInfo, solrJson)
+
+  appendBaseData(solrJson)
 
   wx.request({
     url: 'https://dev.321zou.com/solr/access/update?commitWithin=1000&overwrite=true&wt=json',
@@ -18,7 +15,7 @@ function send(json) {
     header: {
       'content-type': 'application/json'
     },
-    data: JSON.stringify([json]),
+    data: JSON.stringify([solrJson]),
     success: function (res) {
       console.log(res.data)
     },
@@ -28,6 +25,38 @@ function send(json) {
   })
 }
 
+/**
+ * 包装成solr的json数据
+ */
+function packageSolrData(json, prefix) {
+
+  var solrJson = {};
+
+  for (var p in json) {
+    if (json[p] != null) {
+      solrJson[prefix + "_" + p + "_s"] = json[p].toString();
+    } else {
+      solrJson[prefix + "_" + p + "_s"] = null
+    }
+  }
+  return solrJson
+}
+
+/**
+添加基础数据
+*/
+function appendBaseData(solrJson) {
+  solrJson['id'] = "" + new Date().getTime() + Math.random()
+  solrJson['time_s'] = util.formatTime(new Date())
+  return solrJson
+}
+
+function log(data, prefix) {
+  prefix = prefix ? "_" + prefix : "";
+  this.send(data, "log" + prefix);
+}
+
 module.exports = {
-  send: send
+  send: send,
+  log: log
 }

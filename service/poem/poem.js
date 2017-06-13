@@ -56,14 +56,13 @@ function getPoemFromInterface(poemKeywords, poemType, uuid, successCallback, fai
     }
   })
 
-  solr.send({
-    'keywords_s': poemKeywords,
-    'type_i': poemType,
-    'uuid_s': uuid,
-    'date_s': util.formatTime(new Date())
-  })
+  var json = {
+    'keywords': poemKeywords,
+    'type': poemType,
+    'uuid': uuid,
+  }
+  solr.send(json, "make")
 }
-
 
 module.exports = {
   createPoems: createPoems,
