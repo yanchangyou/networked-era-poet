@@ -10,27 +10,28 @@ Page({
    */
   data: {
     keywords: "",
-    poem: [],
+    index: "",
     title: "",
     author: "",
+    poem: [],
     date: '',
     isPreview: app.globalData.isPreViewStatus,
-    options: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.data.options = options
+    var keywords = options.keywords
+    var index = options.index
     var title = options.title
     var author = options.author
-    var date = options.date
-    var keywords = options.keywords
     var poem = JSON.parse(options.poem)
+    var date = options.date
 
     this.setData({
       keywords: keywords,
+      index: index,
       poem: poem,
       title: title,
       author: author,
@@ -42,7 +43,7 @@ Page({
       title: '诗'
     })
 
-    solr.log({ "pageCode": pageCode, "event": "onLoad" })
+    solr.log({ "pageCode": pageCode, "event": "onLoad", data: JSON.stringify(this.data) })
   },
 
   /**
@@ -98,12 +99,13 @@ Page({
    */
   onShareAppMessage: function () {
 
+    var keywords = this.data.keywords
+    var index = this.data.index
     var title = this.data.title
     var author = this.data.author
-    var date = this.data.date
-    var keywords = this.data.keywords
     var poem = JSON.stringify(this.data.poem)
-    var url = '/pages/poem/view/index?poem=' + poem + '&title=' + title + '&author=' + author + '&date=' + date
+    var date = this.data.date
+    var url = '/pages/poem/view/index?' + '&keywords=' + keywords + '&index=' + index + '&title=' + title + '&author=' + author + '&poem=' + poem + '&date=' + date;
     console.log("share url:" + url)
     return {
       title: title,
@@ -123,10 +125,21 @@ Page({
     }, "share")
   },
   savePoem: function () {
+    var data = this.data;
+    var poem = {
+      keywords: data.keywords,
+      index: data.index,
+      title: data.title,
+      author: data.author,
+      poem: data.poem,
+      date: data.date
+    };
+
     var poems = wx.getStorageSync('poems') || {}
-    var poemHash = util.md5(this.data.options)
-    poems[poemHash] = this.data.options
+    var poemHash = util.md5(poem)
+    poems[poemHash] = poem
     wx.setStorageSync('poems', poems)
+
   },
   gotoCreatePoem: function () {
     wx.navigateTo({

@@ -18,8 +18,9 @@
     <button bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">作诗</button>
     <!--<button bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">点赞</button>-->
     <button bindtap="gotoBack" style="display:{{isPreview?'':'none'}}" size="mini" type="default">返回</button>
-    <button bindtap="savePoem" style="display:{{isPreview?'':'none'}}" size="mini" type="default">收集</button>
-    <button open-type="share" size="mini" type="default">分享</button>
+    <button bindtap="savePoem" style="display:{{isPreview?'':'none'}}" size="mini" type="default">存稿</button>
+    <button open-type="share" size="mini" type="default">赠送
+</button>
   </view>
 
   <view class="tips"><text>提示：低版本微信可能点不了分享按钮，请使用右上角转发功能</text></view>
