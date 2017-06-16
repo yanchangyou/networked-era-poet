@@ -18,6 +18,7 @@
     <button bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">作诗</button>
     <!--<button bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">点赞</button>-->
     <button bindtap="gotoBack" style="display:{{isPreview?'':'none'}}" size="mini" type="default">返回</button>
+    <button bindtap="savePoem" style="display:{{isPreview?'':'none'}}" size="mini" type="default">收集</button>
     <button open-type="share" size="mini" type="default">分享</button>
   </view>
 

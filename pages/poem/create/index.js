@@ -3,7 +3,7 @@
 var poemService = require('../../../service/poem/poem.js')
 var solr = require('../../../service/remote/solr/solr.js')
 var util = require('../../../utils/util.js')
-
+var pageCode = "poem-create"
 var app = getApp()
 
 Page({
@@ -11,7 +11,7 @@ Page({
    * 数据
    */
   data: {
-    poems: [["小桥流水里","湘浦荻花时","一夜三杯酒","孤舟万顷陂"]],
+    poems: [["小桥流水里", "湘浦荻花时", "一夜三杯酒", "孤舟万顷陂"]],
     poemIndex: 0,
     userInfo: {},
     poemKeywords: "",
@@ -20,9 +20,9 @@ Page({
     poemContentDisplay: "",
     showNextPomeDisplay: "none",
     poemTitle: '',
-    poemTypeIndex : 3,
+    poemTypeIndex: 3,
     poemType: ['五言起头', '七言起头', '五言藏头', '七言藏头'],
-    poemTypeTips: ['输入首句前几个字', '输入首句前几个字','输入前四个字', '输入前四个字']
+    poemTypeTips: ['输入首句前几个字', '输入首句前几个字', '输入前四个字', '输入前四个字']
   },
 
   /**
@@ -40,7 +40,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '为你作一首诗'
     })
-    solr.log({"event":"onUnload"})
+    solr.log({ "pageCode": pageCode, "event": "onUnload" })
   },
 
   /**
@@ -48,7 +48,7 @@ Page({
    */
   onReady: function () {
 
-    solr.log({ "event": "onReady" })
+    solr.log({ "pageCode": pageCode, "event": "onReady" })
   },
 
   /**
@@ -56,7 +56,7 @@ Page({
    */
   onShow: function () {
 
-    solr.log({ "event": "onShow" })
+    solr.log({ "pageCode": pageCode, "event": "onShow" })
   },
 
   /**
@@ -64,7 +64,7 @@ Page({
    */
   onHide: function () {
 
-    solr.log({ "event": "onHide" })
+    solr.log({ "pageCode": pageCode, "event": "onHide" })
   },
 
   /**
@@ -72,7 +72,7 @@ Page({
    */
   onUnload: function () {
 
-    solr.log({ "event": "onUnload" })
+    solr.log({ "pageCode": pageCode, "event": "onUnload" })
   },
 
   /**
@@ -80,7 +80,7 @@ Page({
    */
   onPullDownRefresh: function () {
 
-    solr.log({ "event": "onPullDownRefresh" })
+    solr.log({ "pageCode": pageCode, "event": "onPullDownRefresh" })
   },
 
   /**
@@ -88,7 +88,7 @@ Page({
    */
   onReachBottom: function () {
 
-    solr.log({ "event": "onReachBottom" })
+    solr.log({ "pageCode": pageCode, "event": "onReachBottom" })
   },
 
   /**
@@ -96,12 +96,13 @@ Page({
    */
   onShareAppMessage: function () {
 
-    solr.log({ "event": "onShareAppMessage" })
-  }, 
+    solr.log({ "pageCode": pageCode, "event": "onShareAppMessage" })
+  },
   selectPoemType: function (e) {
-   
+
     var data = { poemTypeIndex: e.detail.value }
     this.setData(data)
+    util.merge({ "pageCode": pageCode }, data)
     solr.log(data)
   },
   setTitle: function (e) {
@@ -109,22 +110,25 @@ Page({
     poemTitle = util.escapeXChar(poemTitle)
     var data = { poemTitle: poemTitle }
     this.setData(data);
+    util.merge({ "pageCode": pageCode }, data)
     solr.log(data)
   },
   /**
    * 预览
    */
-  preViewPoem : function() {
+  preViewPoem: function () {
     var title = this.data.poemTitle
     if (!title) {
       title = '无题'
     }
+    var keywords = this.data.poemKeywords
+    var index = this.data.poemIndex
     var author = this.data.userInfo.nickName
     var date = new Date().toLocaleDateString();
     var poem = JSON.stringify(this.data.poems[this.data.poemIndex]);
     wx.navigateTo({
-      url: '/pages/poem/view/index?poem=' + poem + '&title=' + title + '&author=' + author + '&date=' + date,
-      fail : function() {//连续跳转5次，就会失败
+      url: '/pages/poem/view/index?' + '&keywords=' + keywords + '&index=' + index + '&title=' + title + '&author=' + author + '&poem=' + poem + '&date=' + date,
+      fail: function () {//连续跳转5次，就会失败
         wx.navigateBack({
           delta: 3
         })
@@ -132,7 +136,8 @@ Page({
     })
     app.globalData.isPreViewStatus = true//用于判断用户是否预览状态
 
-    var data = { poem: poem, title: title, poemIndex: this.data.poemIndex}
+    var data = { keywords: keywords, poem: poem, title: title, poemIndex: this.data.poemIndex }
+    util.merge({ "pageCode": pageCode }, data)
     solr.log(data, "preview")
   },
   setPoemKeywords: function (e) {
@@ -140,6 +145,7 @@ Page({
     poemKeywords = util.escapeXChar(poemKeywords)
     var data = { poemKeywords: poemKeywords }
     this.setData(data)
+    util.merge({ "pageCode": pageCode }, data)
     solr.log(data)
   },
   makePoem: function () {
@@ -160,10 +166,10 @@ Page({
     }, 10000)
 
     this.setData({ progressDisplay: '', poemContentDisplay: 'none' })
-    
+
     var poemKeywords = this.data.poemKeywords
-    var poemType = this.data.poemTypeIndex-(-1);
-    var successCallback = function (poems){
+    var poemType = this.data.poemTypeIndex - (-1);
+    var successCallback = function (poems) {
       // var poems = res.data.poems
 
       clearInterval(timer)
@@ -174,7 +180,7 @@ Page({
         that.setData({ showNextPomeDisplay: '' })
       }
     }
-    var failCallback = function(e){
+    var failCallback = function (e) {
       clearInterval(timer)
     }
     poemService.createPoems(poemKeywords, poemType, successCallback, failCallback)
@@ -190,6 +196,7 @@ Page({
     poemIndex = (++poemIndex) % poemLength
     var data = { poemIndex: poemIndex }
     this.setData(data)
+    util.merge({ "pageCode": pageCode }, data)
     solr.log(data)
   }
 })

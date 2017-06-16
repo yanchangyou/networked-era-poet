@@ -1,31 +1,36 @@
 var solr = require('../../../service/remote/solr/solr.js')
+var util = require('../../../utils/util.js')
 // index.js
 var app = getApp()
-
+var pageCode = "poem-view"
 Page({
 
   /**
    * 数据
    */
   data: {
+    keywords: "",
     poem: [],
     title: "",
     author: "",
-    date:'',
-    isPreview: app.globalData.isPreViewStatus
+    date: '',
+    isPreview: app.globalData.isPreViewStatus,
+    options: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.data.options = options
     var title = options.title
     var author = options.author
-    var date = options.date;
-    var poem = JSON.parse(options.poem);
+    var date = options.date
+    var keywords = options.keywords
+    var poem = JSON.parse(options.poem)
 
     this.setData({
+      keywords: keywords,
       poem: poem,
       title: title,
       author: author,
@@ -37,7 +42,7 @@ Page({
       title: '诗'
     })
 
-    solr.log({ "event": "onLoad" })
+    solr.log({ "pageCode": pageCode, "event": "onLoad" })
   },
 
   /**
@@ -45,7 +50,7 @@ Page({
    */
   onReady: function () {
 
-    solr.log({ "event": "onReady" })
+    solr.log({ "pageCode": pageCode, "event": "onReady" })
   },
 
   /**
@@ -53,7 +58,7 @@ Page({
    */
   onShow: function () {
 
-    solr.log({ "event": "onShow" })
+    solr.log({ "pageCode": pageCode, "event": "onShow" })
   },
 
   /**
@@ -61,7 +66,7 @@ Page({
    */
   onHide: function () {
 
-    solr.log({ "event": "onHide" })
+    solr.log({ "pageCode": pageCode, "event": "onHide" })
   },
 
   /**
@@ -69,7 +74,7 @@ Page({
    */
   onUnload: function () {
 
-    solr.log({ "event": "onUnload" })
+    solr.log({ "pageCode": pageCode, "event": "onUnload" })
   },
 
   /**
@@ -77,7 +82,7 @@ Page({
    */
   onPullDownRefresh: function () {
 
-    solr.log({ "event": "onPullDownRefresh" })
+    solr.log({ "pageCode": pageCode, "event": "onPullDownRefresh" })
   },
 
   /**
@@ -85,7 +90,7 @@ Page({
    */
   onReachBottom: function () {
 
-    solr.log({ "event": "onReachBottom" })
+    solr.log({ "pageCode": pageCode, "event": "onReachBottom" })
   },
 
   /**
@@ -96,7 +101,8 @@ Page({
     var title = this.data.title
     var author = this.data.author
     var date = this.data.date
-    var poem = JSON.stringify(this.data.poem);
+    var keywords = this.data.keywords
+    var poem = JSON.stringify(this.data.poem)
     var url = '/pages/poem/view/index?poem=' + poem + '&title=' + title + '&author=' + author + '&date=' + date
     console.log("share url:" + url)
     return {
@@ -111,18 +117,25 @@ Page({
     }
 
     solr.log({
-          title: title,
-          path: url 
-          }, "share")
+      "pageCode": pageCode,
+      title: title,
+      path: url
+    }, "share")
   },
-  gotoCreatePoem : function() {
+  savePoem: function () {
+    var poems = wx.getStorageSync('poems') || {}
+    var poemHash = util.md5(this.data.options)
+    poems[poemHash] = this.data.options
+    wx.setStorageSync('poems', poems)
+  },
+  gotoCreatePoem: function () {
     wx.navigateTo({
       url: '/pages/poem/create/index'
     })
-    solr.log({"event": "gotoCreatePoem" })
+    solr.log({ "pageCode": pageCode, "event": "gotoCreatePoem" })
   },
-  gotoBack : function() {
+  gotoBack: function () {
     wx.navigateBack()
-    solr.log({ "event": "gotoBack" })
+    solr.log({ "pageCode": pageCode, "event": "gotoBack" })
   }
 })
