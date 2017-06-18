@@ -37,9 +37,6 @@ Page({
         userInfo: userInfo
       })
     })
-    wx.setNavigationBarTitle({
-      title: '为你作一首诗'
-    })
     solr.log({ "pageCode": pageCode, "event": "onUnload" })
   },
 
@@ -48,6 +45,9 @@ Page({
    */
   onReady: function () {
 
+    wx.setNavigationBarTitle({
+      title: '为你作一首诗'
+    })
     solr.log({ "pageCode": pageCode, "event": "onReady" })
   },
 

@@ -97,6 +97,49 @@ function md5(obj) {
   return md5Module.hex_md5(str)
 }
 
+function map2list(map) {
+  var list = []
+  for (var key in map) {
+    list.push(map[key])
+  }
+  return list
+}
+function list2tags(list) {
+
+  var tags = getTags(list)
+  var tagsList = []
+
+  for (var i = 0; i < tags.length; i++) {
+    var tagObject = { tag: tags[i], list: [] }
+
+    for (var j = 0; j < list.length; j++) {
+      if (list[j].tags.indexOf(tags[i]) > -1) { //未考虑标签名称前缀相同的情况
+        tagObject.list.push(list[j])
+      }
+    }
+    tagsList.push(tagObject)
+  }
+  return tagsList
+}
+function getTags(list) {
+  var tags = {};
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].tags) {
+      var tagArray = list[i].tags.split(",")
+      for (var j = 0; j < tagArray.length; j++) {
+        tags[tagArray[j]] = tagArray[j]
+      }
+    }
+  }
+  return map2list(tags)
+}
+/**
+ * 数据id生成规则 
+ */
+function makeDataId() {
+  return "" + (new Date().getTime() + Math.random());
+}
+
 module.exports = {
   formatTime: formatTime,
   escapeXChar: escapeXChar,
@@ -104,5 +147,8 @@ module.exports = {
   merge: merge,
   decryptData: decryptData,
   waitThenDo: waitThenDo,
-  md5: md5
+  md5: md5,
+  map2list, map2list,
+  list2tags: list2tags,
+  makeDataId: makeDataId
 }

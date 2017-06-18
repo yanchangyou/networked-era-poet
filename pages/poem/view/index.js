@@ -1,5 +1,7 @@
 var solr = require('../../../service/remote/solr/solr.js')
 var util = require('../../../utils/util.js')
+var poemService = require('../../../service/poem/poem.js')
+
 // index.js
 var app = getApp()
 var pageCode = "poem-view"
@@ -14,20 +16,52 @@ Page({
     title: "",
     author: "",
     poem: [],
-    date: '',
+    date: "",
     isPreview: app.globalData.isPreViewStatus,
+    id: ""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var keywords = options.keywords
-    var index = options.index
-    var title = options.title
-    var author = options.author
-    var poem = JSON.parse(options.poem)
-    var date = options.date
+
+    var keywords, index, title, author, poem, date
+
+    if (options['id']) {
+      this.setData({ id: options['id'] })
+      var id = options['id']
+      var poems = wx.getStorageSync("allPoems")
+      var localPoem = null;
+      for (var i = 0; i < poems.length; i++) {
+        if (poems[i].id === id) {
+          localPoem = poems[i]
+        }
+      }
+      if (localPoem) {
+        keywords = localPoem.keywords
+        index = localPoem.index
+        title = localPoem.title
+        author = localPoem.author
+        poem = localPoem.poem
+        date = localPoem.date
+      } else {
+        wx.showToast({
+          title: '此诗不存在！',
+          icon: 'error'
+        })
+      }
+
+
+    } else {
+      keywords = options.keywords
+      index = options.index
+      title = options.title
+      author = options.author
+      poem = JSON.parse(options.poem)
+      date = options.date
+    }
+
 
     this.setData({
       keywords: keywords,
@@ -39,9 +73,6 @@ Page({
       isPreview: app.globalData.isPreViewStatus
     })
 
-    wx.setNavigationBarTitle({
-      title: '诗'
-    })
 
     solr.log({ "pageCode": pageCode, "event": "onLoad", data: JSON.stringify(this.data) })
   },
@@ -50,6 +81,10 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+
+    wx.setNavigationBarTitle({
+      title: '诗'
+    })
 
     solr.log({ "pageCode": pageCode, "event": "onReady" })
   },
@@ -97,7 +132,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (event) {
 
     var keywords = this.data.keywords
     var index = this.data.index
@@ -106,7 +141,16 @@ Page({
     var poem = JSON.stringify(this.data.poem)
     var date = this.data.date
     var url = '/pages/poem/view/index?' + '&keywords=' + keywords + '&index=' + index + '&title=' + title + '&author=' + author + '&poem=' + poem + '&date=' + date;
-    console.log("share url:" + url)
+
+    //分享时，默认存档
+    this.savePoem(event, "赠送集")
+
+    solr.log({
+      "pageCode": pageCode,
+      title: title,
+      path: url
+    }, "share")
+
     return {
       title: title,
       path: url,
@@ -117,32 +161,32 @@ Page({
         // 转发失败
       }
     }
-
-    solr.log({
-      "pageCode": pageCode,
-      title: title,
-      path: url
-    }, "share")
   },
-  savePoem: function () {
+  savePoem: function (event, tags) {
     var data = this.data;
     var poem = {
+      id: data.id,
       keywords: data.keywords,
       index: data.index,
       title: data.title,
       author: data.author,
       poem: data.poem,
-      date: data.date
+      date: data.date,
+      time: util.formatTime(new Date()),
+      tags: tags || "草稿集"
     };
 
-    var poems = wx.getStorageSync('poems') || {}
-    var poemHash = util.md5(poem)
-    poems[poemHash] = poem
-    wx.setStorageSync('poems', poems)
+    poem = poemService.save(poem)
+
+    this.setData({id: poem.id})
+
+    wx.showToast({
+      title: '已入我的草稿集！'
+    })
 
   },
   gotoCreatePoem: function () {
-    wx.navigateTo({
+    wx.switchTab({
       url: '/pages/poem/create/index'
     })
     solr.log({ "pageCode": pageCode, "event": "gotoCreatePoem" })

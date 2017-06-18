@@ -54,5 +54,6 @@ var app = App({
         that.globalData.userInfo = userInfo
       })
     })
+
   }
 })

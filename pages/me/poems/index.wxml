@@ -1,0 +1,44 @@
+<!--<view class="header">
+  <text>我的诗稿</text>
+</view>-->
+
+<!--
+<view class="index-bd">
+  <view class="kind-list">
+    <block wx:for-items="{{list}}" wx:key="{{item.id}}">
+      <view class="kind-list-item">
+        <view id="{{item.id}}" class="kind-list-item-hd {{item.open ? 'kind-list-item-hd-show' : ''}}" bindtap="kindToggle">
+          <view class="kind-list-text">{{item.name}}</view>
+          <image class="kind-list-img" src="resources/kind/{{item.id}}.png"></image>
+        </view>
+        <view class="kind-list-item-bd {{item.open ? 'kind-list-item-bd-show' : ''}}">
+          <view class="navigator-box {{item.open ? 'navigator-box-show' : ''}}">
+            <block wx:for-items="{{item.pages}}" wx:for-item="page" wx:key="*item">
+              <navigator url="pages/{{page}}/{{page}}" class="navigator">
+                <view class="navigator-text">{{page}}</view>
+                <view class="navigator-arrow"></view>
+              </navigator>
+            </block>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>-->
+<view class="tags-container weui-grids">
+  <view class="tag weui-grid" wx:key="tag" wx:for="{{tagsPoems}}">
+    <view class="tag-name" id="tag-{{index}}" bindtap="tagTap">
+      <text>{{item.tag}}</text>
+    </view>
+    <view class="poems-container {{item.open? '' : 'hide'}}">
+      <view class="poem weui-grid" wx:key="id" wx:for-item="poem" wx:for-items="{{item.list}}">
+        <navigator url="/pages/poem/view/index?id={{poem.id}}" class="navigator">
+          <!--<text class="weui-grid__icon"></text>-->
+          <text class="navigator-text weui-grid__label">{{poem.date}}</text>
+          <text class="navigator-text weui-grid__label">{{poem.title}}</text>
+          <text class="navigator-arrow"></text>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</view>
