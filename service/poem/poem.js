@@ -74,7 +74,7 @@ function save(poem) {
 }
 
 function insert(poem) {
-  var poems = wx.getStorageSync("allPoems")
+  var poems = wx.getStorageSync("allPoems")||[]
   poem['id'] = util.makeDataId();
   poems.push(poem);
   wx.setStorageSync("allPoems", poems);
