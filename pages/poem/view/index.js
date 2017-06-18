@@ -180,10 +180,12 @@ Page({
 
     this.setData({id: poem.id})
 
-    wx.showToast({
-      title: '已入我的草稿集！'
-    })
-
+    if (!tags) {
+      wx.showToast({
+        title: '已入我的草稿集！'
+      })
+    }
+    
   },
   gotoCreatePoem: function () {
     wx.switchTab({
