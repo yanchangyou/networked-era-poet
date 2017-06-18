@@ -23,13 +23,13 @@ input {
 }
 
 .poem-title {
-  margin-top: 60rpx;
+  margin-top: 50rpx;
   /*font-size: 1.1rem;*/
   width: 260rpx;
 }
 .poem-title input {
   text-align: center;
-  width: 260rpx;
+  width: 250rpx;
   font-size: 1.2rem;
   height: 60rpx;
 }
@@ -46,8 +46,10 @@ input {
   margin-top: 10rpx;
 }
 .poem-content-line,.poem-progress-line {
-  margin: 40rpx;
-  height: 50rpx;
+  height: 80rpx;
+}
+.poem-content-line text,.poem-progress-line text{
+  line-height: 80rpx;
   font-size: 1.5rem;
 }
 

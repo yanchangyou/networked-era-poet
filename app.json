@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/me/poems/index",
     "pages/poem/create/index",
+    "pages/me/poems/index",
     "pages/poem/view/index",
     "pages/friends/default/index",
     "pages/ship/default/index"
