@@ -1,7 +1,9 @@
 var util = require('../../../utils/util.js')
 var poemService = require('../../../service/poem/poem.js')
+var solr = require('../../../service/remote/solr/solr.js')
 
 var app = getApp()
+var pageCode = "poem-create"
 
 Page({
 
@@ -14,25 +16,15 @@ Page({
     list: [],
     scrollTop: 0,
     scrollHeight: 0,
-    startX: 0
+    startX: 0,
+    startY: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-
-    //  这里要非常注意，微信的scroll-view必须要设置高度才能监听滚动事件，所以，需要在页面的onLoad事件中给scroll-view的高度赋值    
-    // var that = this;
-    // wx.getSystemInfo({
-    //   success: function (res) {
-    //     console.info(res.windowHeight);
-    //     that.setData({
-    //       scrollHeight: res.windowHeight
-    //     });
-    //   }
-    // });
+    solr.log({ "pageCode": pageCode, "event": "onLoad" })
   },
 
   /**
@@ -44,6 +36,9 @@ Page({
       title: '我的诗集'
     })
     app.globalData.isPreViewStatus = true
+
+    solr.log({ "pageCode": pageCode, "event": "onReady" })
+
   },
 
   /**
@@ -52,6 +47,8 @@ Page({
   onShow: function () {
 
     this.refresh()
+    solr.log({ "pageCode": pageCode, "event": "onShow" })
+
 
   },
 
@@ -59,6 +56,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
+    solr.log({ "pageCode": pageCode, "event": "onHide" })
 
   },
 
@@ -66,6 +64,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
+    solr.log({ "pageCode": pageCode, "event": "onUnload" })
 
   },
 
@@ -73,6 +72,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.refresh()
+    solr.log({ "pageCode": pageCode, "event": "onPullDownRefresh" })
 
   },
 
@@ -80,6 +81,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    solr.log({ "pageCode": pageCode, "event": "onReachBottom" })
 
   },
 
@@ -87,12 +89,15 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    solr.log({ "pageCode": pageCode, "event": "onShareAppMessage" })
 
   },
   tagTap: function (e) {
     var id = parseInt(e.currentTarget.id.replace("tag-", ""))
     this.data.tagsPoems[id].open = !this.data.tagsPoems[id].open
     this.setData({ tagsPoems: this.data.tagsPoems })
+    solr.log({ "pageCode": pageCode, "event": "tagTap", "tagId": id })
+
   },
   tagMove: function (e) {
     // console.info(e)
@@ -100,36 +105,61 @@ Page({
     var poem = this.findPoem(id)
 
     var endX = e.touches[0].clientX
+    var endY = e.touches[0].clientY
     var startX = this.data.startX
-    if (endX - startX > 0) {//向右滑动
+    var startY = this.data.startY
 
-    } else { //向左滑动
+    //修复 左右滑动和上下滑动 
+    if (Math.abs(endX - startX) < Math.abs(endY - startY) * 2) {
+      return
+    }
 
+    if (Math.abs(endX - startX) < 20) {
+      return
     }
 
     if (endX - startX < -500 || endX - startX > 500) {
       return
     }
-    poem.marginRight -= Math.round((endX - startX)/5)
-    console.info("poem.marginRight:" + poem.marginRight)
 
-    if (poem.marginRight>0) {
+    poem.marginRight -= Math.round(endX - startX)
+
+    if (poem.marginRight > 0) {
       poem.marginRight = 0
     }
     if (poem.marginRight < -100) {
       poem.marginRight = -100
     }
-    console.info("poem.marginRight:" + poem.marginRight)
+    // console.info("poem.marginRight:" + poem.marginRight)
     this.setData({ tagsPoems: this.data.tagsPoems })
   },
   tagMoveStart: function (e) {
     // console.info(e)
     var startX = e.touches[0].clientX;
-    this.setData({ startX: startX })
-    console.info("startX:" + startX)
+    var startY = e.touches[0].clientY;
+    this.setData({ startX: startX, startY: startY })
+    // console.info("startX:" + startX)
   },
   tagMoveEnd: function (e) {
+
+    var id = e.currentTarget.id
+    var poem = this.findPoem(id)
+
+    var endX = e.changedTouches[0].clientX;
+    var endY = e.changedTouches[0].clientY;
+    var startX = this.data.startX;
+    var startY = this.data.startY;
     // console.info(e)
+    if ((endX - startX) >= 20) {//向右滑动，马上关闭
+      poem.marginRight = -100;
+    }
+    if ((endX - startX) < -20 && (Math.abs(endX - startX) > Math.abs(endY - startY) * 2)) {
+      poem.marginRight = 0
+    } else {
+      poem.marginRight = -100
+    }
+    this.setData({ tagsPoems: this.data.tagsPoems })
+    solr.log({ "pageCode": pageCode, "event": "tagMoveEnd" })
 
   },
   refresh: function () {
@@ -145,12 +175,23 @@ Page({
       tagsPoems[i].open = false
     }
     tagsPoems[0].open = true
+    //状态保持之前的，如果之前有状态
+    var oldTagsPoems = this.data.tagsPoems
+    for (var i = 0; i < tagsPoems.length; i++) {
+      for (var j = 0; j < oldTagsPoems.length; j++) {
+        if (tagsPoems[i].tag === oldTagsPoems[j].tag) {
+          tagsPoems[i].open = oldTagsPoems[j].open
+        }
+      }
+    }
     this.setData({ tagsPoems: tagsPoems })
   },
   deletePoem: function (e) {
     var id = e.currentTarget.id;
     poemService.del(id)
     this.refresh()
+    solr.log({ "pageCode": pageCode, "event": "deletePoem" })
+
   },
   findPoem: function (id) {
     for (var i = 0; i < this.data.tagsPoems.length; i++) {
