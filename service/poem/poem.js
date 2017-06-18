@@ -84,7 +84,7 @@ function insert(poem) {
 function update(poem) {
   var poems = wx.getStorageSync("allPoems")
   var id = poem.id
-  for( var i=0; i<poems.length; i++) {
+  for (var i = 0; i < poems.length; i++) {
     if (poems[i].id === id) {
       util.merge(poem, poems[i]);
       break;
@@ -99,7 +99,7 @@ function del(id) {
   var index = 0;
   for (var i = 0; i < poems.length; i++) {
     index = i;
-    if (poems[i].id === poem.id) {
+    if (poems[i].id === id) {
       break;
     }
   }
@@ -107,9 +107,18 @@ function del(id) {
   wx.setStorageSync("allPoems", poems);
 }
 
+function getAllPoems() {
+  return wx.getStorageSync("allPoems") || []
+}
+
+function findPoem(id) {
+
+}
+
 module.exports = {
   createPoems: createPoems,
   getPoems: getPoems,
   save: save,
-  del: del
+  del: del,
+  getAllPoems: getAllPoems
 }

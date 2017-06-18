@@ -1,4 +1,5 @@
 var util = require('../../../utils/util.js')
+var poemService = require('../../../service/poem/poem.js')
 
 var app = getApp()
 
@@ -12,7 +13,8 @@ Page({
     hidden: true,
     list: [],
     scrollTop: 0,
-    scrollHeight: 0
+    scrollHeight: 0,
+    startX: 0
   },
 
   /**
@@ -49,15 +51,8 @@ Page({
    */
   onShow: function () {
 
-    var poems = wx.getStorageSync("allPoems") || []
-    var poemList = util.map2list(poems)
-    var tagsPoems = util.list2tags(poemList)
-    tagsPoems.push({ tag: "全部集", list: poemList })
-    for (var i = 0; i < tagsPoems.length; i++) {
-      tagsPoems[i].open = false
-    }
-    tagsPoems[0].open = true
-    this.setData({ tagsPoems: tagsPoems })
+    this.refresh()
+
   },
 
   /**
@@ -98,5 +93,74 @@ Page({
     var id = parseInt(e.currentTarget.id.replace("tag-", ""))
     this.data.tagsPoems[id].open = !this.data.tagsPoems[id].open
     this.setData({ tagsPoems: this.data.tagsPoems })
+  },
+  tagMove: function (e) {
+    // console.info(e)
+    var id = e.currentTarget.id
+    var poem = this.findPoem(id)
+
+    var endX = e.touches[0].clientX
+    var startX = this.data.startX
+    if (endX - startX > 0) {//向右滑动
+
+    } else { //向左滑动
+
+    }
+
+    if (endX - startX < -500 || endX - startX > 500) {
+      return
+    }
+    poem.marginRight -= Math.round((endX - startX)/5)
+    console.info("poem.marginRight:" + poem.marginRight)
+
+    if (poem.marginRight>0) {
+      poem.marginRight = 0
+    }
+    if (poem.marginRight < -100) {
+      poem.marginRight = -100
+    }
+    console.info("poem.marginRight:" + poem.marginRight)
+    this.setData({ tagsPoems: this.data.tagsPoems })
+  },
+  tagMoveStart: function (e) {
+    // console.info(e)
+    var startX = e.touches[0].clientX;
+    this.setData({ startX: startX })
+    console.info("startX:" + startX)
+  },
+  tagMoveEnd: function (e) {
+    // console.info(e)
+
+  },
+  refresh: function () {
+    var poems = poemService.getAllPoems()
+
+    var poemList = util.map2list(poems)
+    for (var i = 0; i < poemList.length; i++) {
+      poemList[i]['marginRight'] = -100;
+    }
+    var tagsPoems = util.list2tags(poemList)
+    tagsPoems.push({ tag: "全部集", list: poemList })
+    for (var i = 0; i < tagsPoems.length; i++) {
+      tagsPoems[i].open = false
+    }
+    tagsPoems[0].open = true
+    this.setData({ tagsPoems: tagsPoems })
+  },
+  deletePoem: function (e) {
+    var id = e.currentTarget.id;
+    poemService.del(id)
+    this.refresh()
+  },
+  findPoem: function (id) {
+    for (var i = 0; i < this.data.tagsPoems.length; i++) {
+      var poems = this.data.tagsPoems[i].list;
+      for (var j = 0; j < poems.length; j++) {
+        if (id === poems[j].id) {
+          return poems[j]
+        }
+      }
+    }
+    return null;
   }
 })
