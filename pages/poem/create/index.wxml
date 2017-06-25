@@ -5,7 +5,7 @@
     </view>
   </picker>
   <view class="poem-input-text"><input bindblur="setPoemKeywords" maxlength="16" value="{{poemKeywords}}" placeholder="{{poemTypeTips[poemTypeIndex]}}"/></view>
-  <view class="poem-click-button"><button bindtap="bindPoemTap" size="default" type="primary">程序自动作诗</button></view>
+  <view class="poem-click-button"><button bindtap="bindPoemTap" size="mini" type="primary">程序作诗</button><button bindtap="bindICreateTap" size="mini" type="primary">亲自作诗</button></view>
     
   <view class="poem-title"><input bindblur="setTitle" maxlength="10" value="{{poemTitle}}" placeholder="无题"/></view>
   <view class="poem-author"><text>{{userInfo.nickName}}</text></view>

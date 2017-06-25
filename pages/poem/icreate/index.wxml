@@ -1,0 +1,27 @@
+<view class="poem-whole">
+  <view class="poem-title">
+    <input id="title" bindblur="onTitleChange" value="{{title}}" placeholder="诗题" />
+  </view>
+  <view class="poem-author">
+    <input id="author" bindblur="onAuthorChange" value="{{author}}" placeholder="作者" />
+  </view>
+
+  <view class="poem-content">
+    <view class="poem-content-line">
+      <input id="line0" bindblur="onLine0Change" value="{{line0}}" placeholder="第一句" />
+    </view>
+    <view class="poem-content-line">
+      <input id="line1" bindblur="onLine1Change" value="{{line1}}" placeholder="第二句" />
+    </view>
+    <view class="poem-content-line">
+      <input id="line2" bindblur="onLine2Change" value="{{line2}}" placeholder="第三句" />
+    </view>
+    <view class="poem-content-line">
+      <input id="line3" bindblur="onLine3Change" value="{{line3}}" placeholder="第四句" />
+    </view>
+  </view>
+</view>
+<view class="poem-bottom-button">
+  <button bindtap="gotoBack" size="mini" type="default">返回</button>
+  <button bindtap="preview" size="mini" type="default">预览</button>
+</view>

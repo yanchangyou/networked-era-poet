@@ -173,5 +173,10 @@ Page({
     var poemLength = this.data.poems.length
     poemIndex = (++poemIndex) % poemLength
     this.setData({ poemIndex: poemIndex })
+  },
+  bindICreateTap: function() {
+    wx.navigateTo({
+      url: '/pages/poem/icreate/index',
+    })
   }
 })
