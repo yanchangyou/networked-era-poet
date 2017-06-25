@@ -8,3 +8,13 @@
   padding: 40rpx 0;
   box-sizing: border-box;
 } 
+.hide {
+  display: none;
+}
+.show {
+  display: "";
+}
+
+view {
+  overflow-x: hidden;
+}

@@ -8,16 +8,16 @@
 
   <view class="poem-content">
     <view class="poem-content-line">
-      <input id="line0" bindblur="onLine0Change" value="{{line0}}" placeholder="第一句" />
+      <input id="line0" bindblur="onLine0Change" value="{{line0}}" placeholder="第一句" /><text>，</text>
     </view>
     <view class="poem-content-line">
-      <input id="line1" bindblur="onLine1Change" value="{{line1}}" placeholder="第二句" />
+      <input id="line1" bindblur="onLine1Change" value="{{line1}}" placeholder="第二句" /><text>；</text>
     </view>
     <view class="poem-content-line">
-      <input id="line2" bindblur="onLine2Change" value="{{line2}}" placeholder="第三句" />
+      <input id="line2" bindblur="onLine2Change" value="{{line2}}" placeholder="第三句" /><text>，</text>
     </view>
     <view class="poem-content-line">
-      <input id="line3" bindblur="onLine3Change" value="{{line3}}" placeholder="第四句" />
+      <input id="line3" bindblur="onLine3Change" value="{{line3}}" placeholder="第四句" /><text>。</text>
     </view>
   </view>
 </view>

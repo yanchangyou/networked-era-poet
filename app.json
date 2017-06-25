@@ -1,13 +1,41 @@
 {
   "pages": [
+    "pages/poem/icreate/index",
     "pages/poem/create/index",
     "pages/poem/view/index",
-    "pages/poem/icreate/index"
+    "pages/me/poems/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "诗",
     "navigationBarTextStyle": "black"
-  }
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/poem/create/index",
+        "iconPath": "dist/img/poem1.png",
+        "selectedIconPath": "dist/img/poem2.png",
+        "text": "诗"
+      },
+      {
+        "pagePath": "pages/me/poems/index",
+        "iconPath": "dist/img/me1.png",
+        "selectedIconPath": "dist/img/me2.png",
+        "text": "我"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 10000,
+    "downloadFile": 10000
+  },
+  "debug": false
 }

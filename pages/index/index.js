@@ -25,7 +25,7 @@ Page({
   makePoem: function() {
     var seed = this.data.poemKeywords;
     var poemType = '4';
-    var uuid = md5.hex_md5(seed + "-" + poemType);
+    var uuid = md5.lmd5(seed + "-" + poemType);
     var that = this;
     var timer = setInterval(function () {
       var progressPercent = that.data.progressPercent;

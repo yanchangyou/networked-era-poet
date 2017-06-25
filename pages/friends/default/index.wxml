@@ -1,0 +1,4 @@
+<!--index.wxml-->
+<view>
+  <text>好友列表</text>
+</view>

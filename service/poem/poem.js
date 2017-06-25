@@ -1,4 +1,6 @@
 var md5 = require('../../utils/md5.js')
+var util = require('../../utils/util.js')
+var solr = require('../../service/remote/solr/solr.js')
 
 /**
  * 功能：生成诗
@@ -53,10 +55,70 @@ function getPoemFromInterface(poemKeywords, poemType, uuid, successCallback, fai
       }
     }
   })
+
+  var json = {
+    'keywords': poemKeywords,
+    'type': poemType,
+    'uuid': uuid,
+  }
+  solr.send(json, "make")
 }
 
+function save(poem) {
+  if (poem['id']) {
+    update(poem)
+  } else {
+    insert(poem)
+  }
+  return poem
+}
+
+function insert(poem) {
+  var poems = wx.getStorageSync("allPoems")||[]
+  poem['id'] = util.makeDataId();
+  poems.push(poem);
+  wx.setStorageSync("allPoems", poems);
+  return poem
+}
+
+function update(poem) {
+  var poems = wx.getStorageSync("allPoems")
+  var id = poem.id
+  for (var i = 0; i < poems.length; i++) {
+    if (poems[i].id === id) {
+      util.merge(poem, poems[i]);
+      break;
+    }
+  }
+  wx.setStorageSync("allPoems", poems);
+  return poem
+}
+
+function del(id) {
+  var poems = wx.getStorageSync("allPoems")
+  var index = 0;
+  for (var i = 0; i < poems.length; i++) {
+    index = i;
+    if (poems[i].id === id) {
+      break;
+    }
+  }
+  poems.splice(index, 1)
+  wx.setStorageSync("allPoems", poems);
+}
+
+function getAllPoems() {
+  return wx.getStorageSync("allPoems") || []
+}
+
+function findPoem(id) {
+
+}
 
 module.exports = {
   createPoems: createPoems,
-  getPoems: getPoems
+  getPoems: getPoems,
+  save: save,
+  del: del,
+  getAllPoems: getAllPoems
 }

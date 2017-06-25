@@ -1,29 +1,32 @@
-
-.poem-title, .poem-author, .poem-content{
+.poem-title, .poem-author, .poem-content {
   text-align: center;
   width: 100%;
   display: block;
 }
 
 input {
-  border:2rpx solid rgba(0, 0, 0, 0.08);
-  border-radius:15rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.08);
+  border-radius: 15rpx;
   line-height: 60rpx;
 }
+
 .poem-title {
   padding-top: 150rpx;
   font-size: 1.2rem;
 }
+
 .poem-title input {
   font-size: 1.5rem;
   height: 75rpx;
   margin: 0rpx 150rpx;
 }
+
 .poem-author {
   margin-bottom: 10rpx;
   margin-top: 30rpx;
   height: 75rpx;
 }
+
 .poem-author input {
   font-size: 0.9rem;
   display: block;
@@ -31,29 +34,23 @@ input {
   width: 220rpx;
   margin-right: 90rpx;
 }
+
 .poem-content {
   margin-top: 15rpx;
 }
+
 .poem-content-line {
-  margin: 40rpx 100rpx;
-  height: 60rpx;
+  margin: 40rpx 60rpx;
   font-size: 1.5rem;
 }
+
 .poem-content-line input {
   height: 70rpx;
+  float: left;
 }
 
-.poem-date {
-  text-align: right;
-  padding-right: 150rpx;
-  padding-top: 20rpx;
-}
-
-.tips {
-  text-align: left;
-  font-size: 0.6rem;
-  margin-top: 200rpx;
-  padding-left: 50rpx;
+.poem-content-line text {
+  float: left;
 }
 
 .poem-bottom-button {
