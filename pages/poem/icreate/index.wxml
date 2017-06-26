@@ -22,6 +22,6 @@
   </view>
 </view>
 <view class="poem-bottom-button">
-  <button bindtap="gotoBack" size="mini" type="default">返回</button>
-  <button bindtap="preview" size="mini" type="default">预览</button>
+  <button id="btn-gotoBack" bindtap="gotoBack" size="mini" type="default">返回</button>
+  <button id="btn-preview" bindtap="preview" size="mini" type="default">预览</button>
 </view>

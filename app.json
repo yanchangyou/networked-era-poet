@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/poem/icreate/index",
     "pages/poem/create/index",
     "pages/poem/view/index",
+    "pages/poem/icreate/index",
     "pages/me/poems/index"
   ],
   "window": {

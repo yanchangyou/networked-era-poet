@@ -54,9 +54,10 @@ input {
 }
 
 .poem-bottom-button {
-  margin-top: 30rpx;
+  margin-top: 60rpx;
 }
 .poem-bottom-button button {
-  width: 150rpx;
-  margin: 20rpx;
+  width: 120rpx;
+  margin: 10rpx;
+  padding: 0rpx;
 }

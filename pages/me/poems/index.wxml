@@ -11,10 +11,11 @@
             <text class="navigator-text weui-grid__label">{{poem.date}}</text>
             <text class="navigator-text weui-grid__label">{{poem.title}}</text>
             <text class="navigator-arrow"></text>
-            
+
           </navigator>
-          <!--<button bindtap="deletePoem">删除</button>-->
-          <view class="control" style="right:{{poem.marginRight}}rpx;"><text bindtap="deletePoem">删除</text></view>
+          <view class="control" style="right:{{poem.marginRight}}rpx;">
+            <text class="btn-deletePoem" bindtap="deletePoem">删除</text>
+          </view>
         </view>
       </view>
     </view>

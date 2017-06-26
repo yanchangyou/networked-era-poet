@@ -22,6 +22,15 @@ Page({
    */
   onLoad: function (options) {
    
+    var title = options['title']
+    var author = options['author']
+    var line0 = options['line0']
+    var line1 = options['line1']
+    var line2 = options['line2']
+    var line3 = options['line3']
+
+    this.setData({title:title,author:author,line0:line0, line1:line1,line2:line2,line3:line3})
+
     wx.setNavigationBarTitle({
       title: '亲自作诗'
     })
@@ -97,6 +106,8 @@ Page({
     wx.navigateBack()
   },
   preview: function () {
+    
+    app.globalData.isPreViewStatus = true//用于判断用户是否预览状态
 
     var title = this.data.title || '无题'
     var author = this.data.author || '佚名'

@@ -6,15 +6,15 @@
     </view>
   </picker>
   <view class="poem-input-text">
-    <input bindblur="setPoemKeywords" maxlength="16" value="{{poemKeywords}}" placeholder="{{poemTypeTips[poemTypeIndex]}}" />
+    <input id="txt-poemKeywords" bindblur="setPoemKeywords" maxlength="16" value="{{poemKeywords}}" placeholder="{{poemTypeTips[poemTypeIndex]}}" />
   </view>
   <view class="poem-click-button">
-    <button bindtap="bindPoemTap" size="mini" type="primary">程序作诗</button>
-    <button bindtap="bindICreateTap" size="mini" type="primary">亲自作诗</button>
+    <button id="btn-create" bindtap="bindPoemTap" size="mini" type="primary">程序作诗</button>
+    <button id="btn-gotoICreate" bindtap="bindICreateTap" size="mini" type="primary">亲自作诗</button>
   </view>
 
   <view class="poem-title">
-    <input bindblur="setTitle" maxlength="10" value="{{poemTitle}}" placeholder="无题" />
+    <input id="txt-title" bindblur="setTitle" maxlength="10" value="{{poemTitle}}" placeholder="无题" />
   </view>
   <view class="poem-author">
     <text>{{userInfo.nickName}}</text>
@@ -40,8 +40,9 @@
     </view>
   </view>
   <view class="poem-bottom-button">
-    <button open-type="contact" size="mini" type="default">吐槽</button>
-    <button bindtap="showNextPome" style="display:{{showNextPomeDisplay}}" size="mini" type="default">换一首</button>
-    <button bindtap="preViewPoem" size="mini" type="default">预览</button>
+    <button id="btn-contact" open-type="contact" size="mini" type="default">留言</button>
+    <button id="btn-showNextPome" bindtap="showNextPome" style="display:{{showNextPomeDisplay}}" size="mini" type="default">换一首</button>
+    <button id="btn-editPoem" bindtap="editPoem" size="mini" type="default">修改</button>
+    <button id="btn-preViewPoem" bindtap="preViewPoem" size="mini" type="default">预览</button>
   </view>
 </view>

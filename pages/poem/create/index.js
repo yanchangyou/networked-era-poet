@@ -140,6 +140,28 @@ Page({
     util.merge({ "pageCode": pageCode }, data)
     solr.log(data, "preview")
   },
+  /**
+   * 修改
+   */
+  editPoem: function () {
+    var title = this.data.poemTitle
+    if (!title) {
+      title = '无题'
+    }
+    var keywords = this.data.poemKeywords
+    var index = this.data.poemIndex
+    var author = this.data.userInfo.nickName
+    var date = new Date().toLocaleDateString();
+    var poem = this.data.poems[this.data.poemIndex]
+    wx.navigateTo({
+      url: '/pages/poem/icreate/index?' + '&title=' + title + '&author=' + author + '&line0=' + poem[0] + '&line1=' + poem[1] + '&line2=' + poem[2] + '&line3=' + poem[3]
+    })
+    app.globalData.isPreViewStatus = true//用于判断用户是否预览状态
+
+    var data = { keywords: keywords, poem: poem, title: title, poemIndex: this.data.poemIndex }
+    util.merge({ "pageCode": pageCode }, data)
+    solr.log(data, "preview")
+  },
   setPoemKeywords: function (e) {
     var poemKeywords = e.detail.value
     poemKeywords = util.escapeXChar(poemKeywords)
