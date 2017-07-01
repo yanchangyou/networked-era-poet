@@ -40,6 +40,7 @@
 .row .count {
   width: 260rpx;
   float: right;
+  margin-right: 30rpx;
 }
 
 .row .count text{
