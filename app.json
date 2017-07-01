@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/poem/list/index",
     "pages/poem/create/index",
     "pages/poem/view/index",
     "pages/poem/icreate/index",

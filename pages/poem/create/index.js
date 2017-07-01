@@ -127,12 +127,7 @@ Page({
     var date = new Date().toLocaleDateString();
     var poem = JSON.stringify(this.data.poems[this.data.poemIndex]);
     wx.navigateTo({
-      url: '/pages/poem/view/index?' + '&keywords=' + keywords + '&index=' + index + '&title=' + title + '&author=' + author + '&poem=' + poem + '&date=' + date,
-      fail: function () {//连续跳转5次，就会失败
-        wx.navigateBack({
-          delta: 3
-        })
-      }
+      url: '/pages/poem/view/index?' + '&keywords=' + keywords + '&index=' + index + '&title=' + title + '&author=' + author + '&poem=' + poem + '&date=' + date
     })
     app.globalData.isPreViewStatus = true//用于判断用户是否预览状态
 

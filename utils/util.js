@@ -140,6 +140,22 @@ function makeDataId() {
   return "" + (new Date().getTime() + Math.random());
 }
 
+function findById(list, id) {
+  return findByField(list, "id", id);
+}
+
+/**
+ * 按字段查找
+ */
+function findByField(list, fieldName, fieldValue) {
+  for(var i=0; i< list.length; i++) {
+    if(list[i][fieldName] == fieldValue) {
+      return list[i];
+    }
+  }
+  return null;
+}
+
 module.exports = {
   formatTime: formatTime,
   escapeXChar: escapeXChar,
@@ -150,5 +166,7 @@ module.exports = {
   md5: md5,
   map2list, map2list,
   list2tags: list2tags,
-  makeDataId: makeDataId
+  makeDataId: makeDataId,
+  findByField: findByField,
+  findById: findById
 }
