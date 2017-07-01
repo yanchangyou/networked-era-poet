@@ -17,10 +17,10 @@
   <view class="poem-bottom-button">
     <button id="btn-gotoBack" bindtap="gotoBack" size="mini" type="default">返回</button>
     <button id="btn-gotoCreatePoem" bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">作诗</button>
-    <button bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">点赞</button>
+    <button id="btn-likePoem" bindtap="likePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">点赞</button>
     <button id="btn-savePoem" bindtap="savePoem" style="display:{{isPreview?'':'none'}}" size="mini" type="default">存稿</button>
     <button id="btn-publishPoem" bindtap="publishPoem" style="display:{{isPreview?'':'none'}}" size="mini" type="default">发表</button>
-    <button id="btn-publishPoem" bindtap="publishPoem" size="mini" type="default">推荐</button>
+    <!--<button id="btn-publishPoem" bindtap="publishPoem" size="mini" type="default">推荐</button>-->
     <button id="btn-share" style="display:{{isPreview?'':'none'}}" open-type="share" size="mini" type="default">赠送
 </button>
   </view>

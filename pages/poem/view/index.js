@@ -18,7 +18,9 @@ Page({
     poem: [],
     date: "",
     isPreview: app.globalData.isPreViewStatus,
-    id: ""
+    id: "",
+    publishedPoemId: "",
+    authorAvatarUrl: ""
   },
 
   /**
@@ -51,8 +53,6 @@ Page({
           icon: 'error'
         })
       }
-
-
     } else {
       keywords = options.keywords
       index = options.index
@@ -60,8 +60,11 @@ Page({
       author = options.author
       poem = JSON.parse(options.poem)
       date = options.date
-    }
 
+      if (options['publishedPoemId']) {
+        this.setData({ publishedPoemId: options['publishedPoemId'], authorAvatarUrl: options['authorAvatarUrl'] })
+      }
+    }
 
     this.setData({
       keywords: keywords,
@@ -72,7 +75,6 @@ Page({
       date: date,
       isPreview: app.globalData.isPreViewStatus
     })
-
 
     solr.log({ "pageCode": pageCode, "event": "onLoad", data: JSON.stringify(this.data) })
   },
@@ -210,7 +212,7 @@ Page({
       id: id,
       author: author,
       title: title,
-      createDate: date,
+      date: date,
       poem: poem,
       avatarUrl: avatarUrl,
       time: time
@@ -221,5 +223,25 @@ Page({
         title: '发表成功！',
       })
     })
+  },
+  likePoem: function (e) {
+    var avatarUrl = app.globalData.userInfo.avatarUrl
+    var userId1 = util.getUserId1(avatarUrl)
+    var publishedPoemId = this.data.publishedPoemId
+    var user = {}
+    util.merge(app.globalData.userInfo, user)
+    user['id1'] = userId1
+
+    var poem = {}
+
+    poem['id'] = publishedPoemId
+    poem['title'] = this.data.title
+    poem['author'] = this.data.author
+    poem['poem'] = this.data.poem
+    poem['date'] = this.data.date
+    poem['avatarUrl'] = this.data.authorAvatarUrl
+
+    solr.likePoemLog(user, poem)
+
   }
 })

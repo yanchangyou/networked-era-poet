@@ -35,7 +35,6 @@ Page({
     wx.setNavigationBarTitle({
       title: '我的诗集'
     })
-    app.globalData.isPreViewStatus = true
 
     solr.log({ "pageCode": pageCode, "event": "onReady" })
 
@@ -46,9 +45,10 @@ Page({
    */
   onShow: function () {
 
+    app.globalData.isPreViewStatus = true //用于判断用户是否预览状态
+
     this.refresh()
     solr.log({ "pageCode": pageCode, "event": "onShow" })
-
 
   },
 

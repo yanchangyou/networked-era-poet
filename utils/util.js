@@ -22,6 +22,11 @@ function escapeXChar(str) {
   return str.replace(/[~!@#\$%\^&\*\(\)_\+\{\}:"<>\?`\-=\[\];',\.\/]/g, '')
 }
 
+function getUserId1(avatarUrl) {
+  var beginIndex = avatarUrl.indexOf("/vi_32/") + 7
+  return avatarUrl.substr(beginIndex, 64)
+}
+
 function getUserInfo() {
   var app = getApp()
   try {
@@ -168,5 +173,6 @@ module.exports = {
   list2tags: list2tags,
   makeDataId: makeDataId,
   findByField: findByField,
-  findById: findById
+  findById: findById,
+  getUserId1: getUserId1
 }

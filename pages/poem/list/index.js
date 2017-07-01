@@ -18,19 +18,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    solr.queryPoems(function (docs) {
-      var poems = []
-      for (var i = 0; i < docs.length; i++) {
-        var doc = docs[i];
-        if (doc['poems_s']) {
-          //doc.poems_s = JSON.parse(doc.poems_s)
-          poems.push(doc)
-        }
-      }
-      that.setData({ poems: docs })
-    });
-
+    this.refresh()
   },
 
   /**
@@ -45,6 +33,7 @@ Page({
    */
   onShow: function () {
 
+    app.globalData.isPreViewStatus = false//用于判断用户是否预览状态
   },
 
   /**
@@ -65,7 +54,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.refresh()
+    wx.stopPullDownRefresh()
   },
 
   /**
@@ -81,6 +71,26 @@ Page({
   onShareAppMessage: function () {
 
   },
+  refresh: function () {
+    var that = this;
+    var param = {}
+    solr.queryPoems(param, function (docs) {
+      solr.queryLike({}, function (poemIds) {
+        for (var i = 0; i < docs.length; i++) {
+          var likeCount = 0
+          for (var j = 0; j < poemIds.length; j += 2) {
+            if (poemIds[j] === docs[i].id) {
+              likeCount = poemIds[j + 1]
+              break;
+            }
+          }
+          docs[i].likeCount = likeCount
+        }
+        that.setData({ poems: docs })
+      })
+    });
+
+  },
   poemTap: function (e) {
     var id = e.currentTarget.id;
     var poem = util.findById(this.data.poems, id)
@@ -92,12 +102,12 @@ Page({
     // var keywords = this.data.poemKeywords
     // var index = this.data.poemIndex
     var author = poem.author
-    var date = poem.createDate
+    var authorAvatarUrl = poem.avatarUrl
+    var date = poem.date
     var poem = JSON.stringify(poem.poem);
     wx.navigateTo({
-      url: '/pages/poem/view/index?' + '&title=' + title + '&author=' + author + '&poem=' + poem + '&date=' + date
+      url: '/pages/poem/view/index?' + '&title=' + title + '&author=' + author + '&poem=' + poem + '&publishedPoemId=' + id + '&authorAvatarUrl=' + authorAvatarUrl
     })
-    app.globalData.isPreViewStatus = false//用于判断用户是否预览状态
 
   }
 })
