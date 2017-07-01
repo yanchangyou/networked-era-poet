@@ -3,16 +3,34 @@
 <view wx:for="{{poems}}" wx:key="id" class="row weui-grid">
   <view class="poem-wrap" bindtap="poemTap" id="{{item.id}}">
     <navigator url="/pages/poem/view/index?id={{item.id}}" class="navigator">
-      <image class="author-avatar column" src="{{item.avatarUrl_s}}"></image>
-      <!--<image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>-->
-      <text class="author-name column">{{item.author_s}}</text>
-      <text class="poem-title column">{{item.title_s}}</text>
-      <view class="count column">
-        <!--<text class="view-count column ">{{item.viewCount}} 看</text>-->
-        <text class="like-count column ">{{item.likeCount}} 赞</text>
-        <text class="comment-count column ">{{item.commentCount}} 评</text>
+      <view class="poem-author column">
+        <image class="author-avatar " src="{{item.avatarUrl_s}}"></image>
+        <!--<image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>-->
+        <text class="author-name">{{item.author_s}}</text>
       </view>
-      <text class="navigator-arrow column"></text>
+      <view class="poem-content column">
+        <text class="poem-title ">{{item.title_s}}</text>
+        <view class="poem-content-line">
+          <text>{{item.poems[0]}}，</text>
+        </view>
+        <view class="poem-content-line">
+          <text>{{item.poems[1]}}；</text>
+        </view>
+        <view class="poem-content-line">
+          <text>{{item.poems[2]}}，</text>
+        </view>
+        <view class="poem-content-line">
+          <text>{{item.poems[3]}}。</text>
+        </view>
+      </view>
+      <view class=" column">
+        <view class="count ">
+          <!--<text class="view-count column ">{{item.viewCount}} 看</text>-->
+          <text class="like-count column ">{{item.likeCount}} 赞</text>
+          <text class="comment-count column ">{{item.commentCount}} 评</text>
+        </view>
+        <!--<text class="navigator-arrow column"></text>-->
+      </view>
     </navigator>
   </view>
 

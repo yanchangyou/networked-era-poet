@@ -7,7 +7,7 @@
   /*border-left: 1rpx solid #d9d9d9;*/
 }
 .row .column {
-  line-height: 100rpx;
+  /*line-height: 100rpx;*/
   vertical-align: middle;
 }
 
@@ -38,19 +38,17 @@
 }
 
 .row .count {
-  display: inline-block;
   width: 260rpx;
+  float: right;
 }
 
 .row .count text{
   font-size: 0.6rem;
-  /*display: block;*/
   height: 45%;
-  float: left;
   line-height: 50rpx;
   width: 50%;
+  float: right;
   text-align: right;
-  /*margin: 2%;*/
 }
 
 .navigator-arrow:after {
@@ -66,4 +64,8 @@
   top: 50%;
   margin-top: -8rpx;
   right: 28rpx;
+}
+
+.poem-content {
+  text-align: center;
 }

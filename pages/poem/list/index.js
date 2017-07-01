@@ -8,7 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    poems: [{ id: "1498385047495.2227", author_s: "李白", title_s: "静夜思静夜思静", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount: 100, likeCount: 10000, commentCount: 1 },
+    poems: [{ id: "1498385047495.2227", author_s: "李白", title_s: "静夜思静夜", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount: 100, likeCount: 10000, commentCount: 1, poems: ["床前明月光","疑是地上霜","举头望明月","低头思故乡"] },
       { id: "1", author_s: "李白", title_s: "静夜思", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount:100,likeCount:10, commentCount:1000 },
       { id: "1", author_s: "李白", title_s: "静夜思", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount: 100, likeCount: 100000, commentCount: 1 },
       { id: "1", author_s: "李白", title_s: "静夜思", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount: 100, likeCount: 10000, commentCount: 100 },
