@@ -3,10 +3,10 @@ var util = require('../../../utils/util.js')
 var app = getApp()
 
 function send(json, prefix) {
-  util.waitThenDo(function(){
+  util.waitThenDo(function () {
     return util.getUserInfo()
-  }, function(){
-    var userInfo = packageSolrData(util.getUserInfo(),"user")
+  }, function () {
+    var userInfo = packageSolrData(util.getUserInfo(), "user")
     var solrJson = packageSolrData(json, prefix)
     util.merge(userInfo, solrJson)
 
@@ -26,6 +26,44 @@ function send(json, prefix) {
         console.log("网络请求错误：" + e)
       }
     })
+  })
+}
+
+function queryPoems(callback) {
+  wx.request({
+    url: 'https://dev.321zou.com/solr/poem/select?q=*:*&wt=json&sort=id desc',
+    method: 'GET',
+    header: {
+      'content-type': 'application/json'
+    },
+    data: JSON.stringify({}),
+    success: function (res) {
+      callback(res.data.response.docs)
+      console.log(res.data)
+    },
+    fail: function (e) {
+      console.log("网络请求错误：" + e)
+    }
+  })
+}
+function savePoem(poem, callback) {
+  wx.request({
+    url: 'https://dev.321zou.com/solr/poem/update?commitWithin=1000&overwrite=true&wt=json',
+    method: 'POST',
+    header: {
+      'content-type': 'application/json'
+    },
+    data: JSON.stringify([poem]),
+    success: function (res) {
+      if (typeof callback === 'function') {
+        callback(res.data)
+      }
+
+      console.log(res.data)
+    },
+    fail: function (e) {
+      console.log("网络请求错误：" + e)
+    }
   })
 }
 
@@ -64,5 +102,7 @@ function log(data, prefix) {
 
 module.exports = {
   send: send,
-  log: log
+  log: log,
+  queryPoems: queryPoems,
+  savePoem: savePoem
 }

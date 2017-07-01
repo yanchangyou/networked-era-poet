@@ -1,6 +1,9 @@
 // index.js
 
 var util = require('../../../utils/util.js')
+var solr = require('../../../service/remote/solr/solr.js')
+
+var app = getApp()
 
 Page({
 
@@ -8,18 +11,25 @@ Page({
    * 页面的初始数据
    */
   data: {
-    poems: [{ id: "1498385047495.2227", author_s: "李白", title_s: "静夜思静夜", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount: 100, likeCount: 10000, commentCount: 1, poems: ["床前明月光","疑是地上霜","举头望明月","低头思故乡"] },
-      { id: "1", author_s: "李白", title_s: "静夜思", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount:100,likeCount:10, commentCount:1000 },
-      { id: "1", author_s: "李白", title_s: "静夜思", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount: 100, likeCount: 100000, commentCount: 1 },
-      { id: "1", author_s: "李白", title_s: "静夜思", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount: 100, likeCount: 10000, commentCount: 100 },
-      { id: "1", author_s: "李白", title_s: "静夜思", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount: 100, likeCount: 10, commentCount: 1 },
-      { id: "1", author_s: "李白", title_s: "静夜思", avatarUrl_s: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6zeoBJDGMEYibvRiaOhwYrxeUrLg/0", viewCount: 100, likeCount: 10, commentCount: 1  }]
+    poems: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this;
+    solr.queryPoems(function (docs) {
+      var poems = []
+      for (var i = 0; i < docs.length; i++) {
+        var doc = docs[i];
+        if (doc['poems_s']) {
+          //doc.poems_s = JSON.parse(doc.poems_s)
+          poems.push(doc)
+        }
+      }
+      that.setData({ poems: docs })
+    });
 
   },
 
@@ -71,10 +81,23 @@ Page({
   onShareAppMessage: function () {
 
   },
-  poemTap: function(e) {
+  poemTap: function (e) {
     var id = e.currentTarget.id;
     var poem = util.findById(this.data.poems, id)
 
+    var title = poem.title
+    if (!title) {
+      title = '无题'
+    }
+    // var keywords = this.data.poemKeywords
+    // var index = this.data.poemIndex
+    var author = poem.author
+    var date = poem.createDate
+    var poem = JSON.stringify(poem.poem);
+    wx.navigateTo({
+      url: '/pages/poem/view/index?' + '&title=' + title + '&author=' + author + '&poem=' + poem + '&date=' + date
+    })
+    app.globalData.isPreViewStatus = false//用于判断用户是否预览状态
 
   }
 })

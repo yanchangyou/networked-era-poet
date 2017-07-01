@@ -178,14 +178,14 @@ Page({
 
     poem = poemService.save(poem)
 
-    this.setData({id: poem.id})
+    this.setData({ id: poem.id })
 
     if (!tags) {
       wx.showToast({
         title: '已入我的草稿集！'
       })
     }
-    
+
   },
   gotoCreatePoem: function () {
     wx.switchTab({
@@ -196,5 +196,30 @@ Page({
   gotoBack: function () {
     wx.navigateBack()
     solr.log({ "pageCode": pageCode, "event": "gotoBack" })
+  },
+  publishPoem: function () {
+    var title = this.data.title
+    var author = this.data.author
+    var poem = this.data.poem
+    var date = this.data.date
+    var avatarUrl = app.globalData.userInfo.avatarUrl
+    var id = util.makeDataId()
+    var time = util.formatTime(new Date())
+
+    var poem = {
+      id: id,
+      author: author,
+      title: title,
+      createDate: date,
+      poem: poem,
+      avatarUrl: avatarUrl,
+      time: time
+    }
+
+    solr.savePoem(poem, function () {
+      wx.showToast({
+        title: '发表成功！',
+      })
+    })
   }
 })

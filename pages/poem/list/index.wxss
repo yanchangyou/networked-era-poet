@@ -6,6 +6,7 @@
   border-bottom: 1rpx solid #d9d9d9;
   /*border-left: 1rpx solid #d9d9d9;*/
 }
+
 .row .column {
   /*line-height: 100rpx;*/
   vertical-align: middle;
@@ -20,15 +21,30 @@
 
 .author-name {
   margin: 0rpx 5rpx;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
+}
+
+.create-date {
+  float: right;
+  margin-right: 35rpx;
+  font-size: 0.7rem;
+  margin-top: 30rpx;
 }
 
 .poem-title {
-  font-size: 0.9rem;
+  font-size: 1rem;
   /*margin: 0rpx 50rpx;*/
   width: 240rpx;
   text-align: center;
   display: inline-block;
+  letter-spacing: 8rpx;
+}
+
+.poem-content-line {
+  font-size: 0.9rem;
+  margin: 10rpx 0rpx;
+  word-spacing: 8rpx;
+  letter-spacing: 8rpx;
 }
 
 .navigator-arrow {
@@ -43,13 +59,14 @@
   margin-right: 30rpx;
 }
 
-.row .count text{
-  font-size: 0.6rem;
+.row .count text {
+  font-size: 0.7rem;
   height: 45%;
   line-height: 50rpx;
-  width: 50%;
+  /*width: 50%;*/
   float: right;
-  text-align: right;
+  text-align: left;
+  margin-left: 20rpx;
 }
 
 .navigator-arrow:after {
@@ -67,6 +84,6 @@
   right: 28rpx;
 }
 
-.poem-content {
+.main {
   text-align: center;
 }
