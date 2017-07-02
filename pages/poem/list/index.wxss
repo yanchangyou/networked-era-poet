@@ -110,7 +110,6 @@
 }
 
 .tool .info button {
-  top: 15rpx;
   margin-left: 20rpx;
 }
 
