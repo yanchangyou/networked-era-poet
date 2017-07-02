@@ -12,7 +12,7 @@ Page({
    */
   data: {
     poems: [],
-    statusType: ["取消发表", "提交审核", "审核拒绝", "审核通过"],
+    statusType: ["取消发表", "审核拒绝", "提交审核", "审核通过"],
     isAdmin: false,
     checkMessage: ""
   },
@@ -129,7 +129,7 @@ Page({
 
     var id = e.currentTarget.dataset.poem_id
 
-    this.check(id, 2, '审核拒绝!')
+    this.check(id, 1, '审核拒绝!')
 
   },
   check: function (id, status, message) {
@@ -154,7 +154,6 @@ Page({
       wx.showToast({
         title: message
       })
-
     })
 
     this.setData({ checkMessage: "" })
@@ -162,5 +161,12 @@ Page({
   },
   setCheckMessage: function (e) {
     this.setData({ checkMessage: e.detail.value })
+  }, 
+  cancelPublish: function(e) {
+
+    var id = e.currentTarget.dataset.poem_id
+
+    this.check(id, 0, '取消发表成功！')
+
   }
 })

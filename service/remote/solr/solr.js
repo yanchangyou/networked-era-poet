@@ -31,13 +31,13 @@ function send(json, prefix) {
 }
 
 function queryPoems(userId, param, callback) {
-  var solrParam = ''
+  var solrParam = 'NOT+status:0+AND+(*:*+'
   for(var p in param) {
     solrParam += '+AND+' + p + ':' + param[p]
   }
-  solrParam += '+OR+userId:' + userId
+  solrParam += '+OR+userId:' + userId + ')'
   wx.request({
-    url: SOLR_URL + '/poem/select?q=*:*' + solrParam + '&wt=json&sort=status+asc,id+desc',
+    url: SOLR_URL + '/poem/select?q=' + solrParam + '&wt=json&sort=status+asc,id+desc',
     method: 'GET',
     data: JSON.stringify(param),
     success: function (res) {

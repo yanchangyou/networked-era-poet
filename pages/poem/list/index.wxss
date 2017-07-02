@@ -91,15 +91,30 @@
 .admin {
   text-align: center;
 }
+
 .admin button {
   margin: 10rpx;
 }
-.info{
+
+.info {
   margin-left: 50rpx;
   text-align: left;
+  line-height: 60rpx;
+  vertical-align: middle;
 }
 
-.check-fail input{
+.info text, .info button {
+  line-height: 60rpx;
+  height: 60rpx;
+  display: inline-block;
+}
+
+.tool .info button {
+  top: 15rpx;
+  margin-left: 20rpx;
+}
+
+.check-fail input {
   display: inline-block;
   margin-left: 50rpx;
 }

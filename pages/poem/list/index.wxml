@@ -37,9 +37,10 @@
     <!--</navigator>-->
   </view>
 
-  <view class="tool" wx:if="{{item.status==2}}">
+  <view class="tool" wx:if="{{item.status==2 || item.status==1}}">
     <view class="info">
-      <text>拒绝原因：{{item.checkMessage}}</text>
+      <text wx:if="{{item.status==1}}">拒绝原因：{{item.checkMessage}}</text>
+      <button  id="btn-cancelPublish" size="mini" type="default" bindtap="cancelPublish" data-poem_id="{{item.id}}">取消发表</button>
     </view>
   </view>
   <view class="admin" wx:if="{{isAdmin}}">
@@ -47,7 +48,7 @@
       <text>状态：{{statusType[item.status]}}</text>
     </view>
     <button id="btn-checkPass" size="mini" type="default" bindtap="refresh">刷新数据</button>
-    <button id="btn-checkPass" size="mini" type="primary" bindtap="checkPass" data-poem_id="{{item.id}}">审核通过</button>
+    <button id="btn-checkPass" size="mini" type="default" bindtap="checkPass" data-poem_id="{{item.id}}">审核通过</button>
   </view>
   <view class="check-fail">
     <input bindblur="setCheckMessage" placeholder="输入拒绝理由" value="{{checkMessage}}" />

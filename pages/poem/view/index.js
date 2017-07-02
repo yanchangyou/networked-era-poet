@@ -239,7 +239,7 @@ Page({
       avatarUrl: avatarUrl,
       time: time,
       userId: userId,
-      status: 1
+      status: 2
     }
 
     //远程保存
