@@ -31,11 +31,11 @@ function send(json, prefix) {
 }
 
 function queryPoems(userId, param, callback) {
-  var solrParam = 'NOT+status:0+AND+(*:*+'
+  var solrParam = '(status:[1+TO+*])+AND+((*:*+'
   for(var p in param) {
     solrParam += '+AND+' + p + ':' + param[p]
   }
-  solrParam += '+OR+userId:' + userId + ')'
+  solrParam += ')+OR+(userId:' + userId + '))'
   wx.request({
     url: SOLR_URL + '/poem/select?q=' + solrParam + '&wt=json&sort=status+asc,id+desc',
     method: 'GET',
@@ -49,6 +49,7 @@ function queryPoems(userId, param, callback) {
   })
 }
 function savePoem(poem, callback) {
+  console.info(poem)
   wx.request({
     url: SOLR_URL + '/poem/update?commitWithin=1000&overwrite=true&wt=json',
     method: 'POST',

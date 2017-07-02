@@ -21,14 +21,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.refresh()
+    app.getUserInfo()
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.refresh()
   },
 
   /**
@@ -77,13 +77,20 @@ Page({
   refresh: function () {
     var that = this;
     var param = { status: 3 }
-    var userId = util.getUserId1(app.globalData.userInfo.avatarUrl)
+    var userId = "xxx"
+    if (app.globalData.userInfo) {
+      userId = util.getUserId1(app.globalData.userInfo.avatarUrl)
+    }
+    console.info(app.globalData.userInfo)
+    console.info(userId)
     if (userId === "DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6ze") {
       param = {}
       this.setData({ isAdmin: true })
     }
 
     solr.queryPoems(userId, param, function (docs) {
+      console.info("查询诗的结果")
+      console.info(docs)
       solr.queryLike({}, function (poemIds) {
         for (var i = 0; i < docs.length; i++) {
           var likeCount = 0
@@ -145,7 +152,8 @@ Page({
       avatarUrl: poem.avatarUrl,
       time: poem.time,
       status: status,
-      checkMessage: this.data.checkMessage
+      checkMessage: this.data.checkMessage,
+      userId: util.getUserId1(poem.avatarUrl)
     }
 
     var that = this

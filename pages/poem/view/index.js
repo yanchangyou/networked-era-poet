@@ -210,10 +210,10 @@ Page({
     var tags = this.data.tags
     if (this.data.tags) {
       if (this.data.tags.indexOf('发表集') > -1) {
-        wx.showToast({
-          title: '已经发表！',
-        })
-        return
+        // wx.showToast({
+        //   title: '已经发表！',
+        // })
+        // return
       } else {
         tags = this.data.tags + ',发表集'
       }
@@ -228,7 +228,7 @@ Page({
     var avatarUrl = app.globalData.userInfo.avatarUrl
     var id = this.data.id || util.makeDataId()
     var time = this.data.time || util.formatTime(new Date())
-    var userId = this.data.userId
+    var userId = util.getUserId1(avatarUrl)
 
     var poem = {
       id: id,
@@ -245,7 +245,7 @@ Page({
     //远程保存
     solr.savePoem(poem, function () {
       wx.showToast({
-        title: '发表成功！',
+        title: '发表审核中！',
       })
     })
 
@@ -272,7 +272,11 @@ Page({
     poem['date'] = this.data.date
     poem['avatarUrl'] = this.data.authorAvatarUrl
 
-    solr.likePoemLog(user, poem)
+    solr.likePoemLog(user, poem, function() {
+      wx.showToast({
+        title: '点赞完成！',
+      })
+    })
 
   }
 })
