@@ -21,7 +21,8 @@ Page({
     id: "",
     publishedPoemId: "",
     authorAvatarUrl: "",
-    tags: ""
+    tags: "",
+    userId: ""
   },
 
   /**
@@ -77,7 +78,8 @@ Page({
       author: author,
       date: date,
       tags: tags,
-      isPreview: app.globalData.isPreViewStatus
+      isPreview: app.globalData.isPreViewStatus,
+      userId: util.getUserId1(app.globalData.userInfo.avatarUrl)
     })
 
     solr.log({ "pageCode": pageCode, "event": "onLoad", data: JSON.stringify(this.data) })
@@ -226,6 +228,7 @@ Page({
     var avatarUrl = app.globalData.userInfo.avatarUrl
     var id = this.data.id || util.makeDataId()
     var time = this.data.time || util.formatTime(new Date())
+    var userId = this.data.userId
 
     var poem = {
       id: id,
@@ -234,7 +237,9 @@ Page({
       date: date,
       poem: poem,
       avatarUrl: avatarUrl,
-      time: time
+      time: time,
+      userId: userId,
+      status: 1
     }
 
     //远程保存
@@ -251,12 +256,12 @@ Page({
 
   },
   likePoem: function (e) {
-    var avatarUrl = app.globalData.userInfo.avatarUrl
-    var userId1 = util.getUserId1(avatarUrl)
+    var userId1 = this.data.userId
     var publishedPoemId = this.data.publishedPoemId
     var user = {}
     util.merge(app.globalData.userInfo, user)
     user['id1'] = userId1
+    user['id'] = userId1
 
     var poem = {}
 

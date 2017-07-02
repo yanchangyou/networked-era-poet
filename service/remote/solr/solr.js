@@ -30,13 +30,14 @@ function send(json, prefix) {
   })
 }
 
-function queryPoems(param, callback) {
+function queryPoems(userId, param, callback) {
   var solrParam = ''
   for(var p in param) {
     solrParam += '+AND+' + p + ':' + param[p]
   }
+  solrParam += '+OR+userId:' + userId
   wx.request({
-    url: SOLR_URL + '/poem/select?q=*:*' + solrParam + '&wt=json&sort=status+desc,id+desc',
+    url: SOLR_URL + '/poem/select?q=*:*' + solrParam + '&wt=json&sort=status+asc,id+desc',
     method: 'GET',
     data: JSON.stringify(param),
     success: function (res) {

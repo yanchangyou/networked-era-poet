@@ -77,11 +77,13 @@ Page({
   refresh: function () {
     var that = this;
     var param = { status: 3 }
-    if (app.globalData.userInfo.avatarUrl.indexOf("DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJ") > -1) {
+    var userId = util.getUserId1(app.globalData.userInfo.avatarUrl)
+    if (userId === "DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6ze") {
       param = {}
       this.setData({ isAdmin: true })
     }
-    solr.queryPoems(param, function (docs) {
+
+    solr.queryPoems(userId, param, function (docs) {
       solr.queryLike({}, function (poemIds) {
         for (var i = 0; i < docs.length; i++) {
           var likeCount = 0
