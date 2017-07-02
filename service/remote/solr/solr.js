@@ -31,12 +31,13 @@ function send(json, prefix) {
 }
 
 function queryPoems(param, callback) {
+  var solrParam = ''
+  for(var p in param) {
+    solrParam += '+AND+' + p + ':' + param[p]
+  }
   wx.request({
-    url: SOLR_URL + '/poem/select?q=*:*&wt=json&sort=id+desc',
+    url: SOLR_URL + '/poem/select?q=*:*' + solrParam + '&wt=json&sort=status+desc,id+desc',
     method: 'GET',
-    header: {
-      'content-type': 'application/json'
-    },
     data: JSON.stringify(param),
     success: function (res) {
       callback(res.data.response.docs)
@@ -59,7 +60,7 @@ function savePoem(poem, callback) {
         callback(res.data)
       }
 
-      console.log(res.data)
+      // console.log(res.data)
     },
     fail: function (e) {
       console.log("网络请求错误：" + e)
@@ -88,7 +89,7 @@ function saveUser(user) {
         // callback(res.data)
       }
 
-      console.log(res.data)
+      // console.log(res.data)
     },
     fail: function (e) {
       console.log("网络请求错误：" + e)
@@ -124,7 +125,7 @@ function likePoemLog(user, poem, callback) {
         callback(res.data)
       }
 
-      console.log(res.data)
+      // console.log(res.data)
     },
     fail: function (e) {
       console.log("网络请求错误：" + e)

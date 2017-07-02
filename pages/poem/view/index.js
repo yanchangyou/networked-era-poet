@@ -20,7 +20,8 @@ Page({
     isPreview: app.globalData.isPreViewStatus,
     id: "",
     publishedPoemId: "",
-    authorAvatarUrl: ""
+    authorAvatarUrl: "",
+    tags: ""
   },
 
   /**
@@ -28,7 +29,7 @@ Page({
    */
   onLoad: function (options) {
 
-    var keywords, index, title, author, poem, date
+    var keywords, index, title, author, poem, date, tags
 
     if (options['id']) {
       this.setData({ id: options['id'] })
@@ -47,6 +48,7 @@ Page({
         author = localPoem.author
         poem = localPoem.poem
         date = localPoem.date
+        tags = localPoem.tags
       } else {
         wx.showToast({
           title: '此诗不存在！',
@@ -60,6 +62,7 @@ Page({
       author = options.author
       poem = JSON.parse(options.poem)
       date = options.date
+      tags = ''
 
       if (options['publishedPoemId']) {
         this.setData({ publishedPoemId: options['publishedPoemId'], authorAvatarUrl: options['authorAvatarUrl'] })
@@ -73,6 +76,7 @@ Page({
       title: title,
       author: author,
       date: date,
+      tags: tags,
       isPreview: app.globalData.isPreViewStatus
     })
 
@@ -200,13 +204,28 @@ Page({
     solr.log({ "pageCode": pageCode, "event": "gotoBack" })
   },
   publishPoem: function () {
+
+    var tags = this.data.tags
+    if (this.data.tags) {
+      if (this.data.tags.indexOf('发表集') > -1) {
+        wx.showToast({
+          title: '已经发表！',
+        })
+        return
+      } else {
+        tags = this.data.tags + ',发表集'
+      }
+    } else {
+      tags = '发表集'
+    }
+
     var title = this.data.title
     var author = this.data.author
     var poem = this.data.poem
     var date = this.data.date
     var avatarUrl = app.globalData.userInfo.avatarUrl
-    var id = util.makeDataId()
-    var time = util.formatTime(new Date())
+    var id = this.data.id || util.makeDataId()
+    var time = this.data.time || util.formatTime(new Date())
 
     var poem = {
       id: id,
@@ -218,11 +237,18 @@ Page({
       time: time
     }
 
+    //远程保存
     solr.savePoem(poem, function () {
       wx.showToast({
         title: '发表成功！',
       })
     })
+
+    this.setData({ tags: tags })
+    poem['tags'] = tags
+    //本地保存
+    poemService.save(poem)
+
   },
   likePoem: function (e) {
     var avatarUrl = app.globalData.userInfo.avatarUrl

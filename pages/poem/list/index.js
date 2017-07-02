@@ -11,7 +11,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    poems: []
+    poems: [],
+    statusType: ["","提交审核", "审核拒绝", "审核通过"],
+    isAdmin: false
   },
 
   /**
@@ -73,7 +75,11 @@ Page({
   },
   refresh: function () {
     var that = this;
-    var param = {}
+    var param = { status: 3 }
+    if (app.globalData.userInfo.avatarUrl.indexOf("DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJ") > -1) {
+      param = {}
+      this.setData({isAdmin: true})
+    }
     solr.queryPoems(param, function (docs) {
       solr.queryLike({}, function (poemIds) {
         for (var i = 0; i < docs.length; i++) {
@@ -107,6 +113,44 @@ Page({
     var poem = JSON.stringify(poem.poem);
     wx.navigateTo({
       url: '/pages/poem/view/index?' + '&title=' + title + '&author=' + author + '&poem=' + poem + '&publishedPoemId=' + id + '&authorAvatarUrl=' + authorAvatarUrl
+    })
+  },
+  checkPass: function (e) {
+
+    var id = e.currentTarget.dataset.poem_id
+
+    this.check(id, 3, '审核通过！')
+
+  },
+  checkFail: function (e) {
+
+    var id = e.currentTarget.dataset.poem_id
+
+    this.check(id, 2, '审核拒绝!')
+
+  },
+  check: function(id, status, message) {
+
+    var poem = util.findById(this.data.poems, id)
+
+    var newPoem = {
+      id: poem.id,
+      author: poem.author,
+      title: poem.title,
+      date: poem.date,
+      poem: poem.poem,
+      avatarUrl: poem.avatarUrl,
+      time: poem.time,
+      status: status
+    }
+
+    var that = this
+    //远程保存
+    solr.savePoem(newPoem, function () {
+      wx.showToast({
+        title: message
+      })
+      
     })
 
   }

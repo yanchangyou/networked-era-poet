@@ -42,7 +42,7 @@ function getPoemFromInterface(poemKeywords, poemType, uuid, successCallback, fai
       'content-type': 'application/json'
     },
     success: function (res) {
-      console.log(res.data)
+      // console.log(res.data)
       var poems = res.data.poems
       if (typeof successCallback === 'function') {
         successCallback(poems)

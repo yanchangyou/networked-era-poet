@@ -87,3 +87,14 @@
 .main {
   text-align: center;
 }
+
+.admin {
+  text-align: center;
+}
+.admin button {
+  margin: 10rpx;
+}
+.admin .info{
+  margin-left: 50rpx;
+  text-align: left;
+}

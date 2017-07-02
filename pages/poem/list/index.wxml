@@ -36,5 +36,12 @@
     </view>
     <!--</navigator>-->
   </view>
-
+  <view class="admin" wx:if="{{isAdmin}}">
+    <view class="info">
+      <text>状态：{{statusType[item.status]}}</text>
+    </view>
+    <button id="btn-checkPass" size="mini" type="default" bindtap="refresh">刷新数据</button>
+    <button id="btn-checkPass" size="mini" type="primary" bindtap="checkPass" data-poem_id="{{item.id}}">审核通过</button>
+    <button id="btn-checkFail" size="mini" type="default" bindtap="checkFail" data-poem_id="{{item.id}}">审核拒绝</button>
+  </view>
 </view>
