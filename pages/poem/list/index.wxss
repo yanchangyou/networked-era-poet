@@ -94,7 +94,12 @@
 .admin button {
   margin: 10rpx;
 }
-.admin .info{
+.info{
   margin-left: 50rpx;
   text-align: left;
+}
+
+.check-fail input{
+  display: inline-block;
+  margin-left: 50rpx;
 }

@@ -12,8 +12,9 @@ Page({
    */
   data: {
     poems: [],
-    statusType: ["","提交审核", "审核拒绝", "审核通过"],
-    isAdmin: false
+    statusType: ["取消发表", "提交审核", "审核拒绝", "审核通过"],
+    isAdmin: false,
+    checkMessage: ""
   },
 
   /**
@@ -78,7 +79,7 @@ Page({
     var param = { status: 3 }
     if (app.globalData.userInfo.avatarUrl.indexOf("DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJ") > -1) {
       param = {}
-      this.setData({isAdmin: true})
+      this.setData({ isAdmin: true })
     }
     solr.queryPoems(param, function (docs) {
       solr.queryLike({}, function (poemIds) {
@@ -129,7 +130,7 @@ Page({
     this.check(id, 2, '审核拒绝!')
 
   },
-  check: function(id, status, message) {
+  check: function (id, status, message) {
 
     var poem = util.findById(this.data.poems, id)
 
@@ -141,7 +142,8 @@ Page({
       poem: poem.poem,
       avatarUrl: poem.avatarUrl,
       time: poem.time,
-      status: status
+      status: status,
+      checkMessage: this.data.checkMessage
     }
 
     var that = this
@@ -150,8 +152,13 @@ Page({
       wx.showToast({
         title: message
       })
-      
+
     })
 
+    this.setData({ checkMessage: "" })
+
+  },
+  setCheckMessage: function (e) {
+    this.setData({ checkMessage: e.detail.value })
   }
 })
