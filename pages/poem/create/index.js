@@ -11,13 +11,14 @@ Page({
    * 数据
    */
   data: {
-    poems: [["小桥流水里", "湘浦荻花时", "一夜三杯酒", "孤舟万顷陂"]],
+    poems: [],
     poemIndex: 0,
     userInfo: {},
     poemKeywords: "",
     progressDisplay: "none",
     progressPercent: 0,
-    poemContentDisplay: "",
+    selectPoemTypeDisplay: "none",
+    poemContentDisplay: "none",
     showNextPomeDisplay: "none",
     poemTitle: '',
     poemTypeIndex: 3,
@@ -46,7 +47,7 @@ Page({
   onReady: function () {
 
     wx.setNavigationBarTitle({
-      title: '为你作一首诗'
+      title: '智能文字'
     })
     solr.log({ "pageCode": pageCode, "event": "onReady" })
   },
@@ -166,6 +167,7 @@ Page({
     solr.log(data)
   },
   makePoem: function () {
+    this.setData({ selectPoemTypeDisplay:"''"})
     var that = this
     var timer = setInterval(function () {
       var progressPercent = that.data.progressPercent
@@ -196,6 +198,7 @@ Page({
       if (poems.length > 1) {
         that.setData({ showNextPomeDisplay: '' })
       }
+
     }
     var failCallback = function (e) {
       clearInterval(timer)
@@ -216,6 +219,11 @@ Page({
   bindICreateTap: function() {
     wx.navigateTo({
       url: '/pages/poem/icreate/index',
+    })
+  },
+  gotoHome: function() {
+    wx.navigateTo({
+      url: '/pages/poem/list/index'
     })
   }
 })

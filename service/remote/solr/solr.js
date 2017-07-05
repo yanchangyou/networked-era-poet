@@ -21,7 +21,7 @@ function send(json, prefix) {
       },
       data: JSON.stringify([solrJson]),
       success: function (res) {
-        console.log(res.data)
+        // console.log(res.data)
       },
       fail: function (e) {
         console.log("网络请求错误：" + e)
@@ -49,7 +49,7 @@ function queryPoems(userId, param, callback) {
   })
 }
 function savePoem(poem, callback) {
-  console.info(poem)
+  // console.info(poem)
   wx.request({
     url: SOLR_URL + '/poem/update?commitWithin=1000&overwrite=true&wt=json',
     method: 'POST',

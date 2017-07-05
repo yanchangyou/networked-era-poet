@@ -81,16 +81,12 @@ Page({
     if (app.globalData.userInfo) {
       userId = util.getUserId1(app.globalData.userInfo.avatarUrl)
     }
-    console.info(app.globalData.userInfo)
-    console.info(userId)
     if (userId === "DYAIOgq83epKhXVAA3ruU15UQ1c5g0EicyLaJzw28J86SVWwOwZnAJo28NsBa6ze") {
       param = {}
       this.setData({ isAdmin: true })
     }
 
     solr.queryPoems(userId, param, function (docs) {
-      console.info("查询诗的结果")
-      console.info(docs)
       solr.queryLike({}, function (poemIds) {
         for (var i = 0; i < docs.length; i++) {
           var likeCount = 0

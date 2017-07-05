@@ -114,3 +114,7 @@ view {
 .weui-grid__label  {
   margin-top: 0rpx;
 }
+
+#btn-contact{
+  margin-top: 30rpx;
+}

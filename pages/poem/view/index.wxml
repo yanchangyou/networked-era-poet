@@ -15,7 +15,7 @@
     <view class="poem-date"><text>{{date}}</text></view>
 </view>
   <view class="poem-bottom-button">
-    <button id="btn-gotoBack" bindtap="gotoBack" size="mini" type="default">返回</button>
+    <!--<button id="btn-gotoBack" bindtap="gotoBack" size="mini" type="default">返回</button>-->
     <button id="btn-gotoCreatePoem" bindtap="gotoCreatePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">作诗</button>
     <button id="btn-likePoem" bindtap="likePoem" style="display:{{isPreview?'none':''}}" size="mini" type="default">点赞</button>
     <button id="btn-savePoem" bindtap="savePoem" style="display:{{isPreview?'':'none'}}" size="mini" type="default">存稿</button>

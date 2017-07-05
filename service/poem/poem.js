@@ -65,7 +65,7 @@ function getPoemFromInterface(poemKeywords, poemType, uuid, successCallback, fai
 }
 
 function save(poem) {
-  if (poem['id']) {
+  if (findPoemById(poem['id'])) {
     update(poem)
   } else {
     insert(poem)
@@ -111,8 +111,14 @@ function getAllPoems() {
   return wx.getStorageSync("allPoems") || []
 }
 
-function findPoem(id) {
-
+function findPoemById(id) {
+  var poems = getAllPoems()
+  for(var i=0; i<poems.length; i++) {
+    if (poems[i]['id'] == id){
+      return poems[i]
+    }
+  }
+  return null
 }
 
 module.exports = {

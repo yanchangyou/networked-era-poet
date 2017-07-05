@@ -21,3 +21,5 @@
     </view>
   </view>
 </view>
+<view></view>
+<button id="btn-contact" open-type="contact" size="default" type="primary">留言</button>

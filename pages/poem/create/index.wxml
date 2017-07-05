@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
-  <picker bindchange="selectPoemType" value="{{poemTypeIndex}}" range="{{poemType}}">
+  <picker bindchange="selectPoemType" value="{{poemTypeIndex}}" range="{{poemType}}" style="display:{{selectPoemTypeDisplay}};">
     <view class="picker">
       选择类型：{{poemType[poemTypeIndex]}}
     </view>
@@ -9,12 +9,12 @@
     <input id="txt-poemKeywords" bindblur="setPoemKeywords" maxlength="16" value="{{poemKeywords}}" placeholder="{{poemTypeTips[poemTypeIndex]}}" />
   </view>
   <view class="poem-click-button">
-    <button id="btn-create" bindtap="bindPoemTap" size="mini" type="primary">程序作诗</button>
-    <button id="btn-gotoICreate" bindtap="bindICreateTap" size="mini" type="primary">亲自作诗</button>
+    <button id="btn-create" bindtap="bindPoemTap" size="mini" type="primary">程序</button>
+    <button id="btn-gotoICreate" bindtap="bindICreateTap" size="mini" type="primary">亲自</button>
   </view>
 
   <view class="poem-title">
-    <input id="txt-title" bindblur="setTitle" maxlength="10" value="{{poemTitle}}" placeholder="无题" />
+    <input id="txt-title" bindblur="setTitle" maxlength="10" value="{{poemTitle}}" placeholder="" />
   </view>
   <view class="poem-author">
     <text>{{userInfo.nickName}}</text>
@@ -40,7 +40,7 @@
     </view>
   </view>
   <view class="poem-bottom-button">
-    <button id="btn-contact" open-type="contact" size="mini" type="default">留言</button>
+    <button id="btn-home" bindtap="gotoHome" size="mini" type="default">进入</button>
     <button id="btn-showNextPome" bindtap="showNextPome" style="display:{{showNextPomeDisplay}}" size="mini" type="default">换一首</button>
     <button id="btn-editPoem" bindtap="editPoem" size="mini" type="default">修改</button>
     <button id="btn-preViewPoem" bindtap="preViewPoem" size="mini" type="default">预览</button>

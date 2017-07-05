@@ -250,7 +250,7 @@ Page({
     })
 
     this.setData({ tags: tags })
-    poem['tags'] = tags
+    poem['tags'] = tags.replace(/草稿集,?/g, "").replace(/,?草稿集/g, "").replace(/草稿集/g, "")
     //本地保存
     poemService.save(poem)
 
