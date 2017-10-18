@@ -10,8 +10,8 @@ var app = App({
     } else {
       //调用登录接口
       wx.login({
-        success: function () {
-          // var code = loginRes.code
+        success: function (loginRes) {
+          var code = loginRes.code
           wx.getUserInfo({
             success: function (res) {
               that.globalData.userInfo = res.userInfo

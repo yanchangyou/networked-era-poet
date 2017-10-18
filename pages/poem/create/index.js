@@ -38,6 +38,10 @@ Page({
         userInfo: userInfo
       })
     })
+
+
+   
+
     solr.log({ "pageCode": pageCode, "event": "onUnload" })
   },
 
@@ -56,6 +60,26 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+
+
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userInfo']) {
+
+          wx.openSetting({
+            success: (res) => {
+
+              res.authSetting = {
+                "scope.userInfo": true,
+                "scope.userLocation": true
+              }
+
+            }
+          })
+
+        }
+      }
+    })
 
     solr.log({ "pageCode": pageCode, "event": "onShow" })
   },

@@ -4,7 +4,8 @@
     "pages/poem/view/index",
     "pages/poem/icreate/index",
     "pages/poem/list/index",
-    "pages/me/poems/index"
+    "pages/me/poems/index",
+    "pages/util/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -19,7 +20,6 @@
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "list": [
-
       {
         "pagePath": "pages/poem/create/index",
         "iconPath": "dist/img/home1.png",

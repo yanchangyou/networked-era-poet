@@ -1,0 +1,5 @@
+<!--index.wxml-->
+<text>授权码:</text>
+<input value="{{code}}"></input>
+<view class="classname">分割</view>
+<text selectable="true">{{code}}</text>
